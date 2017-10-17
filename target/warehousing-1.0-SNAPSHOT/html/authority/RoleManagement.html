@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>角色管理</title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/area.css" />
+		<script src="../../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/area.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/Personal/RoleManagement.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/cr1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/cr.js" type="text/javascript" charset="utf-8"></script>
+
+		<style type="text/css">
+			::-moz-placeholder {
+				color: #F0C17F;
+			}
+			
+			::-webkit-input-placeholder {
+				color: #F0C17F;
+			}
+			
+			:-ms-input-placeholder {
+				color: #F0C17F;
+			}
+			
+			.model {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: #000;
+				z-index: 10;
+				opacity: 0.3;
+				filter: alpha(opacity: 30);
+			}
+			
+			/*.bootstrap-select,*/
+			.show-tick button {
+				border: 1px solid #000;
+			}
+			
+			.glyphicon-ok:before {
+				content: "\e013";
+				float: left;
+			}
+			
+			.list {
+				border: 1px solid #92CAF0;
+				height: 92px;
+				padding: 5px;
+				position: relative;
+				margin-bottom: 35px;
+			}
+			
+			.list:first-of-type {
+				margin-top: 20px;
+			}
+			
+			.fileset {
+				position: absolute;
+				top: -19px;
+				left: 78px;
+				width: 150px;
+				background: #f1f1f1;
+				padding: 0 20px;
+			}
+			
+			.lowerList {
+				height: 92px;
+				line-height: 92px;
+				/*width:25%;*/
+				margin-left: 5%;
+				float: left;
+			}
+			
+			.lowerList:first-of-type {
+				margin-left: 5%;
+			}
+			.modal{
+				margin-top:150px;
+			}
+
+			#RoleManageMsg tr td:last-of-type span {
+				cursor: pointer;
+				color: #337ab7;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="dddd"></div>
+		<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+			<div class="row" style="height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);">
+				<h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+					<span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;" />角色信息</span>
+					<div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+						<div class="input-group"style="width: 200px;">
+							<input class="form-control" style="text-align:left;" type="text" id="seachbox" name="search" placeholder="角色名称"/>
+							<span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;" onclick="search();">搜索</span>
+						</div>
+					</div>
+				</h3>
+			</div>
+			<div class="row" style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px;">
+				<table class="table table-striped" style="color:#374650;">
+					<thead>
+						<tr style="background:#AFD8F4;">
+							<td>角色编号<span class="pull-right">|</span></td>
+							<td>用户角色<span class="pull-right">|</span></td>
+							<td>角色名称<span class="pull-right">|</span></td>
+							<td style="position:relative;">操作<span class="addRole" id="addRole" onclick="openAddRole();">+</span></td>
+						</tr>
+					</thead>
+					<tbody id="RoleManageMsg">
+						<!--角色列表-->
+					</tbody>
+				</table>
+				<div class="btn-group" style="margin-left:40%;" id="roleManageBtns">
+					<span class="btn btn-default" onclick="roleManageInfo.pageType('preAllPage');">首页</span>
+					<span class="btn btn-default" onclick="roleManageInfo.pageType('prePage');">上一页</span>
+					<span class="btn btn-default disabled" id="roleManageNumber">0/0</span>
+					<span class="btn btn-default" onclick="roleManageInfo.pageType('nextPage');">下一页</span>
+					<span class="btn btn-default" onclick="roleManageInfo.pageType('nextAllPage');">尾页</span>
+					<span class="btn btn-default disabled">共<span id="roleManageTotal">0</span>条</span>
+				</div>
+			</div>
+			<!--新增角色信息-->
+			<div class="modal" id="addRoleModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="fadeIn()" style="margin-top: -5px;">&times;</button>
+							<h4 class="modal-title">&gt;新增</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addRoleNumber">角色编号</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="addRoleNumber" id="addRoleNumber" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addUserRole">用户角色</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="addUserRole" id="addUserRole" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addRoleName">角色名称</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="addRoleName" id="addRoleName" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="button" class="btn btn-primary" id="submit1" data-times="0" onclick="submitAddRole()" style="width: 80px;" value="提交" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--修改角色信息-->
+			<div class="modal" id="editRoleModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="fadeIn()" style="margin-top: -5px;">&times;</button>
+							<h4 class="modal-title">&gt;编辑</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editRoleNumber">角色编号</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="editRoleNumber" id="editRoleNumber" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editUserRole">用户角色</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="editUserRole" id="editUserRole" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editRoleName">角色名称</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="editRoleName" id="editRoleName" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="col-xs-2 col-xs-push-7">
+								<input type="button" onclick="submitEditRole(this);" id="submit2" data-times="0" class="btn btn-primary" style="width: 80px;" value="提交" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="hidden" id="loadingModdle">
+				<div class="loadingModdle" style="min-width:1000px;">
+					<div>
+						<img class="loading" src="../../images/loading_more.gif">
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

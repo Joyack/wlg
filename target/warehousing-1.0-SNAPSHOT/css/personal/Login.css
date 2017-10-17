@@ -1,0 +1,62 @@
+body {
+  background-color: #e6e6e6;
+  width: 100%;
+}
+body header {
+  background-color: #1c79bf;
+  height: 120px;
+  -webkit-border-radius: 0 12px 12px 0;
+  -moz-border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0;
+}
+body header .logo {
+  width: 590px;
+}
+body header .logo .logo-img {
+  width: 120px;
+  height: 120px;
+  background: url("../img/logo.png") no-repeat 30px;
+  -webkit-background-origin: content-box;
+  background-origin: content-box;
+}
+body header .logo p {
+  position: absolute;
+  top: 39%;
+  left: 140px;
+  font-size: 40px;
+  font-family: SimHei;
+  letter-spacing: 7px;
+  color: #bababa;
+}
+body .wrapper {
+  width: 100%;
+}
+body .wrapper .login {
+  width: 400px;
+  height: 300px;
+  border: 1px solid #1c79bf;
+  margin: 100px auto;
+}
+body .wrapper .login input {
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 15px;
+  width: 200px;
+  height: 30px;
+}
+body .wrapper .login input:nth-of-type(1) {
+  margin-top: 75px;
+}
+body .wrapper .login .login-btn {
+  width: 100px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background-color: #1c79bf;
+  color: #fff;
+  margin-left: 150px;
+  margin-top: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

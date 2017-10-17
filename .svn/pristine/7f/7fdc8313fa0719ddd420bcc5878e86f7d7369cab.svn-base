@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>资源管理</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/area.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/metroStyle.css"/>
+    <script src="../js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery.ztree.core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/zTreeNormal.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/area.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/Personal/ResourcesManagement.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+
+    <style type="text/css">
+        ::-moz-placeholder {
+            color: #F0C17F;
+        }
+
+        ::-webkit-input-placeholder {
+            color: #F0C17F;
+        }
+
+        :-ms-input-placeholder {
+            color: #F0C17F;
+        }
+
+        .model {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10;
+            opacity: 0.3;
+            filter: alpha(opacity:30);
+        }
+
+        .bootstrap-select,
+        .show-tick button {
+            border: 1px solid #000;
+        }
+
+        .glyphicon-ok:before {
+            content: "\e013";
+            float: left;
+        }
+
+        .list {
+            width: 270px;
+            /*margin: 30px auto;*/
+        }
+
+        .list li {
+            list-style: none;
+            margin-top: 1px;
+        }
+
+        .list li a {
+            height: 32px;
+            width: 100%;
+            background-color: #638ED0;
+            display: block;
+            font-family: 微软雅黑;
+            color: azure;
+            line-height: 32px;
+            vertical-align: middle;
+            text-decoration: none;
+            text-indent: 1em;
+            font-size: 14px;
+        }
+
+        .list li a:hover {
+            background-color: #386AB7;
+        }
+
+        .list li .con p a {
+            background-color: aliceblue;
+            width: 270px;
+            color: black;
+            font-size: 12px;
+            padding-left: 20px;
+        }
+
+        .list li .con p a:hover {
+            background-color: aliceblue;
+            color: #386AB7;
+            padding-left: 17px;
+            border-left: 3px solid #386AB7;
+        }
+
+        /* 右边的加号 */
+        #addRes {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            font-size: 50px;
+            color: #FF9205; /* 橙色 */
+            cursor: pointer;
+        }
+
+        tbody tr td:last-of-type span {
+            cursor: pointer;
+            color: #337ab7;
+        }
+
+        tbody tr td:last-of-type span:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+    <div class="row" style="height: 50px;line-height:50px;background:url(../images/addUser_bg.png);">
+        <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+            <span><img src="../img/location.png" width="23px;" style="margin-bottom: 5px;"/>资源管理</span>
+        </h3>
+    </div>
+    <div class="row" style="margin-top: 8px;padding-bottom: 20px;">
+        <!--左侧树状菜单栏-->
+        <div class="col-md-2 col-xs-2 box_left" id="areaSelect"
+             style="background:#f1f1f1;border-right: 1px solid #92caf0;overflow: auto;">
+            <div class="areaInput" style="background: #92CAF0;">
+                <input class="" type="text" name="areaInput" id="areaInput" value="" onchange="cr_area.getValue(this);"
+                       placeholder="请输入资源名称"/>
+            </div>
+            <div style="background: #eee;">
+                <ul class="ztree" id="treeDom" style="margin: 0;"></ul>
+                <!--回到顶部-->
+                <div class="cr_top" onclick="cr_normal.areaTop();">
+                    <span class="glyphicon glyphicon-chevron-up" style="padding-top: 7px;"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-10" style="height: 100%;margin-top: 5px">
+            <table class="table table-striped" style="color:#374650;  padding-left: 30px;width: 99%">
+                <thead>
+                <tr style="background:#AFD8F4;">
+                    <td>顺序编号<span class="pull-right">|</span></td>
+                    <td>资源名称<span class="pull-right">|</span></td>
+                    <td>资源URL<span class="pull-right">|</span></td>
+                    <td>父菜单<span class="pull-right">|</span></td>
+                    <td>等级<span class="pull-right">|</span></td>
+                    <td style="position:relative;">操作<span class="addRes" id="addRes"
+                                                           onclick="openAddResource();">+</span></td>
+                </tr>
+                </thead>
+                <tbody id="resourcesMsg">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--新增资源信息-->
+    <div class="modal" id="addResourceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            style="margin-top: -5px;">&times;
+                    </button>
+                    <h4 class="modal-title">&gt;新增</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="addParentMenu">父菜单</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="addParentMenu" id="addParentMenu" class="form-control"
+                                   style="border-color:#000;" disabled/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="addResourceName">资源名称</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="addResourceName" id="addResourceName" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="addUrl">资源URL</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="addUrl" id="addUrl" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="addResourceNumber">顺序编号</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="addResourceNumber" id="addResourceNumber" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="addLevel">等级</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="addLevel" id="addLevel" class="form-control"
+                                   style="border-color:#000;" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" onclick="submitAddResource()" style="width: 80px;"
+                           value="提交"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改资源信息-->
+    <div class="modal" id="editResourceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="fadeIn()"
+                            style="margin-top: -5px;">&times;
+                    </button>
+                    <h4 class="modal-title">&gt;编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="editParentMenu">父菜单</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="editParentMenu" id="editParentMenu" class="form-control"
+                                   style="border-color:#000;" disabled/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="editResourceName">资源名称</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="editResourceName" id="editResourceName" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="editUrl">资源URL</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="editUrl" id="editUrl" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="editResourceNumber">顺序编号</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="editResourceNumber" id="editResourceNumber" class="form-control"
+                                   style="border-color:#000;"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-xs-2 col-xs-push-1">
+                            <label for="editLevel">等级</label>
+                        </div>
+                        <div class="col-xs-8 col-xs-push-1">
+                            <input type="text" name="editLevel" id="editLevel" class="form-control"
+                                   style="border-color:#000;" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-xs-2 col-xs-push-7">
+                        <input type="button" onclick="submitEditResource(this);" class="btn btn-primary"
+                               style="width: 80px;" value="提交"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden" id="loadingModdle">
+        <div class="loadingModdle" style="min-width:1000px;">
+            <div>
+                <img class="loading" src="../images/loading_more.gif">
+            </div>
+        </div>
+    </div>
+</div>
+<div></div>
+</body>
+
+</html>

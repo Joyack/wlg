@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>物品管理</title>
+    <link rel="stylesheet" type="text/css" href="../../css/area.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.min.css"/>
+    <script src="../../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-datetimepicker.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/Personal/GoodManagement.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/area.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="js/cr1.js" type="text/javascript" charset="utf-8"></script>-->
+    <style type="text/css">
+        .addItem {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            font-size: 50px;
+            color: #FF9205;
+            cursor: pointer;
+        }
+        
+        #itemManagementMsg tr td:last-of-type span{
+            color: #337ab7;
+
+        }
+        #itemManagementMsg tr td:last-of-type span:hover {
+            color:#286090;
+            cursor:pointer;
+            text-decoration: underline;
+        }
+
+        span.form-control {
+            border: none;
+            outline: none;
+            background: none;
+        }
+        body{
+            background: #EEEEEE;
+        }
+    </style>
+</head>
+
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+    <div class="row"
+         style="height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);position: relative;">
+        <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+            <span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;"/>物品管理</span>
+            <div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+                <div class="input-group" style="width: 200px;">
+                    <input class="form-control" style="text-align:left;" type="text" id="seachbox" name="search"
+                           placeholder="物品名称"/>
+                    <span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;"
+                          onclick="itemManagement.searchMsg()">搜索</span>
+                </div>
+            </div>
+        </h3>
+    </div>
+    <div class="row" style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px;">
+        <div class="col-md-12 col-xs-12" style="height:80px;">
+            <div style="float: left;padding: 25px;">
+                <label style="font-weight: 100;">类&nbsp;&nbsp;&nbsp;&nbsp;型&nbsp;:</label>
+            </div>
+            <div style="width: 250px;float: left;margin-top: 25px;">
+                <select class="form-control" name="itemType" id="itemType" onchange="search();">
+                    <option value="01">主料</option>
+                    <option value="02">辅料</option>
+                    <option value="03">成品</option>
+                    <option value="">全部</option>
+                </select>
+            </div>
+        </div>
+        <table class="table table-striped" style="color:#374650;">
+            <thead>
+            <tr style="background:#AFD8F4;">
+                <td>物品编号<span class="pull-right">|</span></td>
+                <td>物品名称<span class="pull-right">|</span></td>
+                <td>物品类型<span class="pull-right">|</span></td>
+                <td>规格型号<span class="pull-right">|</span></td>
+                <td>供应商<span class="pull-right">|</span></td>
+                <td>单位<span class="pull-right">|</span></td>
+                <td style="position:relative;">操作<span class="addItem" id="addItem" onclick="addItem();">+</span></td>
+            </tr>
+            </thead>
+            <tbody id="itemManagementMsg">
+
+            </tbody>
+        </table>
+        <div class="btn-group" style="margin-left:40%;" id="itemManagementBtns">
+            <span class="btn btn-default" onclick="itemManagement.pageType('preAllPage');">首页</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('prePage');">上一页</span>
+            <span class="btn btn-default disabled" id="itemManagementNumber">0/0</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('nextPage');">下一页</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('nextAllPage');">尾页</span>
+            <span class="btn btn-default disabled">共<span id="itemManagementTotal">0</span>条</span>
+        </div>
+        <!--新增物品类别-->
+        <div class="modal" id="addMsg" style="margin-top: 8%;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">&gt;新增物品类别</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品类型</label></div>
+                            <div class="col-md-5 col-xs-5">
+                                <select class="form-control" id="addType">
+                                    <option value="01">主料</option>
+                                    <option value="02">辅料</option>
+                                    <option value="03">成品</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品编号</label></div>
+                            <div class="col-md-9 col-xs-9">
+                                <span class="form-control" id="addId"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品名称</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <input type="text" class="form-control" id="addName"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>规格型号</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <input type="text" class="form-control" id="addNumber"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>供应商</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <div>
+                                    <select class="form-control" id="addProvider" data-live-search="true"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位</label>
+                            </div>
+                            <div class="col-md-5 col-xs-5">
+                                <select class="form-control" id="addUnit"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="submitAddGood" onclick="submitAddItem();">提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--编辑物品类别-->
+        <div class="modal" id="editMsg" style="margin-top:8%;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">&gt;编辑</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品类型</label>
+                            </div>
+                            <div class="col-md-5 col-xs-5">
+                                <select class="form-control" id="editType">
+                                    <option value="01">主料</option>
+                                    <option value="02">辅料</option>
+                                    <option value="03">成品</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品编号</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <span class="form-control" id="editId"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>物品名称</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <input type="text" class="form-control" id="editName"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>规格型号</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <input type="text" class="form-control" id="editNumber"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>供应商</label>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <select class="form-control" id="editProvider"></select>
+                                <span id="proname" style="display: none"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-xs-2" style="min-width: 100px;margin-bottom:10px;">
+                                <label>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位</label>
+                            </div>
+                            <div class="col-md-5 col-xs-5">
+                                <select class="form-control" id="editUnit"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="submitEditGood" onclick="submitEditItem();">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hidden" id="loadingModdle">
+            <div class="loadingModdle" style="min-width:1000px;">
+                <div>
+                    <img class="loading" src="../../images/loading_more.gif"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

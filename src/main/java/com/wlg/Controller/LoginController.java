@@ -1,0 +1,271 @@
+package com.wlg.Controller;
+
+import com.wlg.Controller.security.CaptchaUtil;
+import com.wlg.Interceptor.CustomMonitorRealm;
+import com.wlg.Model.User;
+import com.wlg.Service.UserService;
+import com.wlg.Util.EncryptUtils;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+import java.io.IOException;
+import java.util.Enumeration;
+
+/**
+ * Created by lvlf on 2016/7/12.
+ */
+@Controller
+@Scope("prototype")
+@RequestMapping(value = "login")
+public class LoginController extends BaseController{
+    private Logger logger = Logger.getLogger(LoginController.class);
+    @Resource
+    private UserService userService;
+
+    /**
+     * 用户登出
+     */
+    @RequestMapping(value="/logout.do",method = RequestMethod.POST)
+    public String logout(HttpServletRequest request){
+        SecurityUtils.getSubject().logout();
+        return  "redirect:../html/index.jsp";
+    }
+
+    /**
+     * 跳转到myjsp页面
+     *
+     * @return
+     */
+    @RequestMapping(value="/home.do")
+    public String home() {
+        Subject currentUser = SecurityUtils.getSubject();
+        if(currentUser.isPermitted("us4er.do?m4yjsp")){
+            return "/page/home";
+        }else{
+            return "error/noperms";
+        }
+    }
+
+//    @RequestMapping(value = "/main.do" ,method = RequestMethod.POST)
+//    public ModelAndView login(User user) {
+//
+//        String code=request.getParameter("checkCode");
+//        String sessioncode=(String)session.getAttribute("code");
+//
+//        ModelAndView modelView = new ModelAndView();
+//        Subject currentUser = SecurityUtils.getSubject();
+//        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), EncryptUtils.encryptMD5(user.getPassword()));
+//        token.setRememberMe(true);
+//
+//        try {
+//            currentUser.login(token);
+//        } catch (UnknownAccountException uae) {
+//            modelView.addObject("message", "账号不存在!");
+//            modelView.setViewName("redirect:../html/index");
+//            logger.info(uae);
+//            return modelView;
+//        }catch (IncorrectCredentialsException ice) {
+//            modelView.addObject("message", "密码错误!");
+//            modelView.setViewName("redirect:../html/index");
+//            logger.info(ice);
+//            return modelView;
+//        } catch (LockedAccountException lae) {
+//            modelView.addObject("message", "账号被锁定!");
+//            modelView.setViewName("redirect:../html/index");
+//            logger.info(lae);
+//            return modelView;
+//        }catch (AuthenticationException e) {
+//            modelView.addObject("message", "认证错误!");
+//            modelView.setViewName("redirect:../html/index");
+//            logger.info(e);
+//            return modelView;
+//        }
+//
+//        if(currentUser.isAuthenticated()){
+//            if(!code.equals(sessioncode)){
+//                modelView.addObject("message","验证码输入错误！");
+//                request.setAttribute("message","验证码输入错误");
+//                modelView.setViewName("dispatcher:../html/index");
+//                return modelView;
+//            }
+//            Session session = currentUser.getSession();
+//            session.setAttribute("userinfo", user);
+//            User  u = (User)session.getAttribute("userinfo");
+//
+//            modelView.setViewName("redirect:../html/menu.html");
+//        }else{
+//            modelView.addObject("message", "用户名或密码错误");
+//            modelView.setViewName("redirect:../html/index");
+//        }
+//
+////        System.out.print("savedRequest："+savedRequest);
+//        return modelView;
+//    }
+
+
+    @RequestMapping(value = "/main.do" ,method = RequestMethod.POST)
+    public String login(User user) throws IOException{
+
+        String code=request.getParameter("checkCode");
+        String sessioncode=(String)session.getAttribute("code");
+        JSONObject json=new JSONObject();
+       // ModelAndView modelView = new ModelAndView();
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), EncryptUtils.encryptMD5(user.getPassword()));
+        token.setRememberMe(true);
+
+        try {
+            currentUser.login(token);
+        } catch (UnknownAccountException uae) {
+            json.put("message", "账号不存在!");
+
+
+        }catch (IncorrectCredentialsException ice) {
+            json.put("message", "密码错误!");
+
+        } catch (LockedAccountException lae) {
+            json.put("message", "账号被锁定!");
+
+        }catch (AuthenticationException e) {
+            json.put("message", "认证错误!");
+
+        }
+
+        if(currentUser.isAuthenticated()){
+            if(!code.equalsIgnoreCase(sessioncode)){
+                json.put("message","验证码输入错误！");
+
+            }else {
+                Session session = currentUser.getSession();
+                session.setAttribute("userinfo", user);
+                User u = (User) session.getAttribute("userinfo");
+
+                json.put("message", "success");
+            }
+        }else{
+            json.put("message", "用户名或密码错误");
+
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.getWriter().write(json.toString());
+        return null;
+    }
+
+
+    /**
+     * 退出登录
+     *
+     * @return
+     */
+    @RequestMapping(params = "logout")
+    public String logout() {
+        Subject currentUser = SecurityUtils.getSubject();
+        try {
+            if(currentUser!=null)
+                currentUser.logout();
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+            logger.info(e);
+        }
+        return "/login";
+    }
+
+    @RequestMapping(params = "myjsp")
+    public ModelAndView login2() {
+
+        System.out.println("sss");
+        ModelAndView modelView = new ModelAndView();
+        modelView.addObject("message", "登录成功!");
+        modelView.setViewName("/my");
+        return modelView;
+    }
+
+    @RequestMapping(value = "userLogin.do")
+    public ModelAndView userLogin() {
+        ModelAndView modelView = new ModelAndView();
+        modelView.setViewName("selectPlatForm");
+        Subject currentUser = SecurityUtils.getSubject();
+        Session session = currentUser.getSession();
+        session.removeAttribute("username");
+        session.removeAttribute("password");
+        session.removeAttribute("json");
+        return modelView;
+    }
+
+    @RequestMapping(params = "test")
+    public ModelAndView login3() {
+        System.out.println("sss");
+        ModelAndView modelView = new ModelAndView();
+        modelView.addObject("message", "登录成功!");
+        modelView.setViewName("/test");
+        return modelView;
+    }
+    /**
+     * 验证码验证
+     *
+     * @param session
+     * @param code
+     */
+
+
+    private void checkCode(HttpSession session, String code) throws IOException {
+        String codeSession = (String) session.getAttribute("code");
+
+        if (StringUtils.isEmpty(codeSession) ) {
+            logger.error("没有生成验证码信息");
+            throw new IllegalStateException("ERR-01000");
+        }
+        if (StringUtils.isEmpty(code)) {
+            logger.error("未填写验证码信息");
+            throw new IOException("ERR-06018");
+        }
+        if (codeSession.equalsIgnoreCase(code)) {
+
+        } else {
+            logger.error("验证码错误");
+            throw new IOException("ERR-06019");
+        }
+
+
+    }
+
+
+
+    @RequestMapping(value = "/check.do",method = RequestMethod.GET)
+    public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 通知浏览器不要缓存
+        response.setHeader("Expires", "-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "-1");
+        CaptchaUtil util = CaptchaUtil.Instance();
+        // 将验证码输入到session中，用来验证
+        String code = util.getString();
+
+        request.getSession().setAttribute("code", code);
+
+        // 输出打web页面
+        ImageIO.write(util.getImage(), "jpg", response.getOutputStream());
+    }
+
+
+
+
+}

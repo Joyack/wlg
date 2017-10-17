@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>报表生成</title>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/area.css"/>
+    <script src="../../js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/template-web.js"></script>
+    <style type="text/css">
+        a:hover {
+            text-decoration: none;
+            list-style: none;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        /*a.active{
+            background: #AFD8F4;
+        }*/
+        ul {
+            margin-left: 10px;
+        }
+
+        li {
+            float: left;
+            list-style-type: none;
+            margin-left: 0px;
+            width: 180px;
+            /*table-layout: fixed;*/
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 18px;
+            border: solid #AFD8F4 0.15ex;
+
+        }
+
+        ul li a {
+            color: #000000;
+            display: block;
+            background: #eee;
+        }
+
+        .table thead tr td {
+            height: 50px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body style="background-color: #EEEEEE">
+<div id="dddd"></div>
+<div class="row" style="height: 50px;line-height:50px;position: relative;">
+    <div class="row"
+         style="margin-left:3%;margin-right: 3%;height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);position: relative;">
+        <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+            <span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;"/>报表生成</span>
+        </h3>
+    </div>
+</div>
+<div style="margin-top:10px;margin-left: 3%;margin-right: 3%">
+    <div class="row" style="margin-top: 10px;border: 1px solid #64C1FF;">
+        <div class="container-fluid">
+            <ul id="list" style="text-align: center;margin-top: 20px;">
+                <li onclick="test(this);" class="active" data-data="1" style="background:#AFD8F4 ;"><a
+                        href="#rmInventory"
+                        data-toggle="tab"
+                        style="background: #AFD8F4;">原材料库存表</a>
+                </li>
+                <li onclick="test(this);" data-data="2"><a href="#rmInStock" data-toggle="tab">原材料入库流水</a></li>
+                <li onclick="test(this);" data-data="3"><a href="#rmOutStock" data-toggle="tab">原材料出库流水</a></li>
+                <li onclick="test(this);" data-data="4"><a href="#fgInventory" data-toggle="tab">成品库存表</a></li>
+                <li onclick="test(this);" data-data="5"><a href="#fgInStock" data-toggle="tab">成品入库流水</a></li>
+                <li onclick="test(this);" data-data="6"><a href="#fgOutStock" data-toggle="tab">成品出库流水</a></li>
+                <li onclick="test(this);" data-data="7"><a href="#materialSummary" data-toggle="tab">物料汇总表</a></li>
+            </ul>
+            <div class="pull-right" style="margin-top:-13px;margin-bottom:20px">
+                <div class="col-md-2"
+                     style="line-height:30px;margin-top:20px;margin-left:36px;height: 40px;width: 110px;font-size: 16px">
+                    选择月份：
+                </div>
+                <select class="form-control col-md-2" id="selectMonth"
+                        style=" float: left;line-height:40px;margin:10px;height: 40px;width: 120px;">
+                    <option value="" selected="selected" class="first"></option>
+                </select>
+                <div style="text-align:right" class="col-md-2">
+                    <a id="export" href="#" class="btn btn-primary"
+                       style=" width:70px;height:40px;margin-top:10px;margin-right: 36px;">导出</a>
+                </div>
+            </div>
+        </div>
+        <div id="reportTable" class="tab-content">
+            <!--原材料库存表-->
+            <div class="tab-pane active" id="rmInventory" style="overflow: auto">
+                <table id="table1" class="table table-striped"
+                       style="color:#374650;width:2500px;table-layout: fixed;text-align: center;">
+                    <thead style="">
+                    <tr style="background:#AFD8F4;height:30px">
+                        <td>物品名称<span class="pull-right">|</span></td>
+                        <td>物品类型<span class="pull-right">|</span></td>
+                        <td>规格型号<span class="pull-right">|</span></td>
+                        <td>单位<span class="pull-right">|</span></td>
+                        <td>供应商<span class="pull-right">|</span></td>
+                        <td>上期库存<span class="pull-right">|</span></td>
+                        <td>上期单价<span class="pull-right">|</span></td>
+                        <td>上期金额<span class="pull-right">|</span></td>
+                        <td>本期出库数量<span class="pull-right">|</span></td>
+                        <td>本期出库单价<span class="pull-right">|</span></td>
+                        <td>本期出库金额<span class="pull-right">|</span></td>
+                        <td>本期入库数量<span class="pull-right">|</span></td>
+                        <td>本期入库单价<span class="pull-right">|</span></td>
+                        <td>本期入库金额<span class="pull-right">|</span></td>
+                        <td>本期结存数量<span class="pull-right">|</span></td>
+                        <td>本期结存单价<span class="pull-right">|</span></td>
+                        <td>本期结存金额<span class="pull-right">|</span></td>
+                        <td>期末盘点数量<span class="pull-right">|</span></td>
+                        <td>期末盘点单价<span class="pull-right">|</span></td>
+                        <td>期末盘点金额</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="rmInventory-table">
+                    </tbody>
+                </table>
+            </div>
+
+            <!--原材料入库流水-->
+            <div role="tabpanel" class="tab-pane " id="rmInStock">
+                <table id="table2" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>入库数量</td>
+                        <td>入库单价</td>
+                        <td>入库金额</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="rmInStock-table">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--原材料出库流水-->
+            <div role="tabpanel" class="tab-pane " id="rmOutStock">
+                <table id="table3" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>出库数量</td>
+                        <td>出库单价</td>
+                        <td>出库金额</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="rmOutStock-table">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--成品库存表-->
+            <div role="tabpanel" class="tab-pane " id="fgInventory">
+                <table id="table4" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>上期库存</td>
+                        <td>本期出库数量</td>
+                        <td>本期入库数量</td>
+                        <td>本期结存数量</td>
+                        <td>期末盘点数量</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="fgInventory-table">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--成品入库流水-->
+            <div role="tabpanel" class="tab-pane " id="fgInStock">
+                <table id="table5" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>入库数量</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="fgInStock-table">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--成品出库流水-->
+            <div role="tabpanel" class="tab-pane " id="fgOutStock">
+                <table id="table6" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>出库数量</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="fgOutStock-table">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--物料汇总表-->
+            <div role="tabpanel" class="tab-pane " id="materialSummary">
+                <table id="table7" class="table table-striped"
+                       style="color:#374650;table-layout: fixed;text-align: center;">
+                    <thead>
+                    <tr style="background:#AFD8F4;">
+                        <td>物品名称</td>
+                        <td>物品类型</td>
+                        <td>规格型号</td>
+                        <td>单位</td>
+                        <td>供应商</td>
+                        <td>物料用途</td>
+                        <td>成品规格型号</td>
+                        <td>成品供应商</td>
+                        <td>物料数量</td>
+                        <td>物料总金额</td>
+                    </tr>
+                    </thead>
+
+                    <tbody id="materialSummary-table">
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+        <br/>
+        <div class="btn-group" style="margin-left:40%;" id="itemManagementBtns">
+            <span class="btn btn-default" onclick="itemManagement.pageType('preAllPage');">首页</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('prePage');">上一页</span>
+            <span class="btn btn-default disabled" id="itemManagementNumber">0/0</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('nextPage');">下一页</span>
+            <span class="btn btn-default" onclick="itemManagement.pageType('nextAllPage');">尾页</span>
+            <span class="btn btn-default disabled">共<span id="itemManagementTotal">0</span>条</span>
+        </div>
+        <br/>
+        <br/>
+        <!--<div style="word-wrap: break-word;word-break:break-all;width: 800px;height:100px;margin-left: 36px;color: #ff0000;">-->
+        <!--&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp每张报表在月末生成，在此之前无法查询到。原材料和成品的差别是，原材料带有金额，成品不带金额。-->
+        <!--原材料的单价由当月入/出库的总金额除以当月入/出库的总数量计算得到，每件物品一个单价。-->
+        <!--库存表按照物品排序，出入库流水按照时间排序，物料汇总表按照物料用途排序，同一物料用途以内按照物品排序。-->
+        <!--</div>-->
+    </div>
+</div>
+<!--原材料库存表模板-->
+<script id="rmInventoryTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].prestocknum}}</td>
+        <td>{{result[i].preprice}}</td>
+        <td>{{result[i].premoney}}</td>
+        <td>{{result[i].curroutstocknum}}</td>
+        <td>{{result[i].curroutprice}}</td>
+        <td>{{result[i].curroutmoney}}</td>
+        <td>{{result[i].currinstocknum}}</td>
+        <td>{{result[i].currinprice}}</td>
+        <td>{{result[i].currinmoney}}</td>
+        <td>{{result[i].currjcstocknum}}</td>
+        <td>{{result[i].currjcprice}}</td>
+        <td>{{result[i].currjcmoney}}</td>
+        <td>{{result[i].currcksnum}}</td>
+        <td>{{result[i].currckprice}}</td>
+        <td>{{result[i].currckmoney}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--原材料入库流水模板-->
+<script id="rmInStockTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].stocknum}}</td>
+        <td>{{result[i].price}}</td>
+        <td>{{result[i].money}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--原材料出库流水模板-->
+<script id="rmOutStockTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].curroutstocknum}}</td>
+        <td>{{result[i].curroutprice}}</td>
+        <td>{{result[i].curroutmoney}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--成品库存模板-->
+<script id="fgInventoryTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].prestocknum}}</td>
+        <td>{{result[i].curroutstocknum}}</td>
+        <td>{{result[i].currinstocknum}}</td>
+        <td>{{result[i].currjcstocknum}}</td>
+        <td>{{result[i].currcksnum}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--成品入库流水模板-->
+<script id="fgInStockTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].instocknum}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--成品出库流水模板-->
+<script id="fgOutStockTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].outstocknum}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--物料汇总表模板-->
+<script id="materialSummaryTem" type="text/html">
+    {{each result value i}}
+    <tr>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].gtid}}</td>
+        <td>{{result[i].gspec}}</td>
+        <td>{{result[i].unit}}</td>
+        <td>{{result[i].provider}}</td>
+        <td>{{result[i].yt}}</td>
+        <td>{{result[i].fgspec}}</td>
+        <td>{{result[i].fgprovider}}</td>
+        <td>{{result[i].stocknum}}</td>
+        <td>{{result[i].money}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--<script src="../../js/export/Blob.js"></script>-->
+<!--<script src="../../js/export/FileSaver.js"></script>-->
+<!--<script src="../../js/export/tableExport.js"></script>-->
+<script src="../../js/Personal/ReportGeneration.js"></script>
+<script src="../../js/area.js"></script>
+<script src="../../js/excellentexport.js"></script>
+</body>
+</html>

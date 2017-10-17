@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>统计图表</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="../../css/personal/public.css">
+    <link rel="stylesheet" href="../../css/personal/Statis.css">
+    <script src="../../js/jquery-1.11.2.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;">
+    <div class="wrapper">
+        <div class="right fl">
+            <div class="row"
+                 style="margin-left:2.5%;margin-right: 2.5%;height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);position: relative;">
+                <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+                    <span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;"/>统计图表</span>
+                </h3>
+            </div>
+            <div class="main" style="margin-top: 8px;margin-left:2.5%;margin-right: 2.5%;">
+                <div class="navbar rel">
+                    <span class="btn" id="out-in">出入库数量</span>
+                    <span class="btn" id="sales">销售数量</span>
+                    <span class="btn" id="purchase">采购数量</span>
+                    <span class="btn" id="stock">库存数量</span>
+                </div>
+                <div class="statisHide show out-in-show clearfix">
+                    <div class="statis-status fl" id="outInSelect">
+                        <i class="glyphicon glyphicon-play"></i>
+                        <span>出入库数量</span>
+                        <select name="time" id="out-in-year">
+                            <option value="" selected="selected" class="first"></option>
+                        </select>
+                        <select name="status" id="out-in-status">
+                            <option value="01">入库</option>
+                            <option value="02">出库</option>
+                        </select>
+                    </div>
+                    <div class="diagram fl" id="diagram"></div>
+                    <div class="goods fl">
+                        <ul id="out-in-ul">
+                        </ul>
+                    </div>
+                </div>
+                <div class="statisHide sales-show clearfix">
+                    <div class="statis-status fl">
+                        <i class="glyphicon glyphicon-play"></i>
+                        <span>销售数量</span>
+                        <select name="time" id="sales-year">
+                            <option value="" selected="selected" class="first"></option>
+                        </select>
+                    </div>
+                    <div class="diagram fl" id="sales-diagram"></div>
+                    <div class="goods fl">
+                        <ul id="sales-ul">
+                        </ul>
+                    </div>
+                </div>
+                <div class="statisHide purchase-show clearfix">
+                    <div class="statis-status fl">
+                        <i class="glyphicon glyphicon-play"></i>
+                        <span>采购数量</span>
+                        <select name="time" id="purchase-year">
+                            <option value="" selected="selected" class="first"></option>
+                        </select>
+                    </div>
+                    <div class="diagram fl" id="purchase-diagram"></div>
+                    <div class="goods fl">
+                        <ul id="purchase-ul">
+                        </ul>
+                    </div>
+                </div>
+                <div class="statisHide stock-show clearfix">
+                    <div class="statis-status fl">
+                        <i class="glyphicon glyphicon-play"></i>
+                        <span>库存数量</span>
+                        <select name="time" id="stock-year">
+                            <option value="" selected="selected" class="first"></option>
+                        </select>
+                    </div>
+                    <div class="diagram fl" id="stock-diagram"></div>
+                    <div class="goods fl">
+                        <ul id="goods-ul">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!--右侧下拉复选框模板-->
+    <script id="goodList" type="text/html">
+        <i class="glyphicon glyphicon-plus plus"></i>
+        <input type="checkbox" class="statisCheckbox selectAll">物品全选
+        {{each allGoods value i}}
+        <li class="checkboxLi"><input data-id="{{allGoods[i].id}}" type="checkbox" class="statisCheckbox">
+            {{allGoods[i].gname}}
+        </li>
+        {{/each}}
+    </script>
+
+    <script src="../../js/echarts.js"></script>
+    <script src="../../js/template-web.js"></script>
+    <script src="../../js/Personal/Statistic.js"></script>
+    <script src="../../js/area.js"></script>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url: HEADER + "report/getDateList.do?flag=2",
+            type: "GET",
+            success: function (data) {
+                var jsonarr = data.result;
+                var html = "";
+                for (var i = 0; i < jsonarr.length; i++) {
+                    html += "<option value='" + jsonarr[i].datetime + "'>" + jsonarr[i].datetime + "</option>";
+                }
+                $("#selectMonth").html(html);
+            }
+        });
+    });
+
+</script>
+</html>

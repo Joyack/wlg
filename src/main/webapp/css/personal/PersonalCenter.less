@@ -1,0 +1,238 @@
+@base: #1c79bf;
+@hover:#13227a;
+@rightBgc:#e6e6e6;
+@leftBgc:#787878;
+
+body {
+  background-color: @rightBgc;
+  min-width: 1680px;
+  header {
+    background-color: @base;
+    height: 120px;
+    -webkit-border-radius: 0 12px 12px 0;
+    -moz-border-radius: 0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
+    .logo {
+      width: 590px;
+      .logo-img {
+        width: 120px;
+        height: 120px;
+        background: url("../img/logo.png") no-repeat 30px;
+        -webkit-background-origin:content-box;
+        background-origin:content-box;
+      }
+      p {
+        position: absolute;
+        top: 39%;
+        left: 140px;
+        font-size: 40px;
+        font-family:SimHei;
+        letter-spacing: 7px;
+      }
+    }
+    .nav {
+      top: 46px;
+      left: 36%;
+      height: 100%;
+      ul {
+        li {
+          float: left;
+          width: 126px;
+          height: 50px;
+          line-height: 42px;
+          text-align: center;
+          a {
+            height: 100%;
+            color: #fff;
+            display: block;
+            background: url("../img/li_btn.png") no-repeat;
+            &:hover {
+              color: @hover;
+            }
+            &:active {
+              background: url("../img/li_btn.png") no-repeat 0 5px;
+            }
+          }
+        }
+      }
+    }
+    .options {
+      top: 21px;
+      left: 87%;
+      width: 13%;
+      p{
+        margin: 0;
+      }
+      div {
+        margin-right: 15%;
+        a {
+          display: block;
+          width: 30px;
+          height: 50px;
+          vertical-align: bottom;
+          background: url("../img/user.png") no-repeat;
+          background-size: contain;
+          color: #fff;
+          &:hover{
+            color: @hover;
+            background-image: url("../img/user_hover.png");
+          }
+          p {
+            bottom: 0;
+            left: -19px;
+          }
+        }
+      }
+      .verify {
+        a{
+          background-image: url("../img/verify.png");
+          &:hover{
+            background-image: url('../img/verify_hover.png');
+          }
+          p {
+            left: -3px;
+            width: 40px;
+            letter-spacing: 3px;
+          }
+        }
+      }
+      .quit {
+        a{
+          background-image: url("../img/quit.png");
+          &:hover{
+            background-image: url('../img/quit_hover.png');
+          }
+          p {
+            width: 40px;
+            left: -4px;
+            letter-spacing: 3px;
+          }
+        }
+      }
+    }
+  }
+  .wrapper{
+    height: 1000px;
+    overflow: hidden;
+    .left{
+      width: 16%;
+      height: 100%;
+      background-color: @leftBgc;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 0.3em;
+      a{
+        display: block;
+        margin-top:24px;
+        padding:15px;
+        color: #fff;
+        &:hover{
+          color: @hover;
+          background-color: @rightBgc;
+        }
+      }
+    }
+    .right{
+      width: 100%;
+      height: 100%;
+      .bar{
+        height: 38px;
+        line-height: 32px;
+        background-color: #fff;
+        margin-top: 2px;
+        margin-left: -1px;
+        div{
+          padding-left: 36px;
+          background: url("../img/location.png") no-repeat 16px;
+          background-size: 20px 21px;
+          span{
+            color: @leftBgc;
+          }
+        }
+      }
+      .main{
+        background-color: #fff;
+        margin-top: 4px;
+        margin-left: -1px;
+        padding-top:40px;
+        padding-left: 100px;
+        height: 100%;
+        .up{
+          .form-head{
+            display: flex;
+            padding-bottom: 30px;
+            .basic-info{
+              font-family:SimHei;
+              font-size: 20px;
+              font-weight:bold;
+            }
+            .line{
+              border-top: 1px solid @rightBgc;
+              width: 75%;
+              margin: 10px 3px 0 3px;
+            }
+            .btn{
+              background-color: @base;
+              margin-top: -9px;
+              letter-spacing: 0.2em;
+              border-radius: 20px;
+            }
+          }
+          .form-body{
+            span{
+              display: inline-block;
+              margin-right: 100px;
+              margin-bottom: 18px;
+            }
+            .u_name{
+              margin-left: 1em;
+            }
+            .role,.name,.email{
+              margin-left: 1em;
+            }
+            .l-spacing{
+              display: inline;
+              margin-left: 1em;
+              margin-right:0;
+            }
+          }
+        }
+        .down{
+          margin-top: 100px;
+          .form-head{
+            display: flex;
+            padding-bottom: 30px;
+            .basic-info{
+              font-family:SimHei;
+              font-size: 20px;
+              font-weight:bold;
+            }
+            .line{
+              border-top: 1px solid @rightBgc;
+              width: 75%;
+              margin: 10px 3px 0 3px;
+            }
+            .btn{
+              background-color: @base;
+              margin-top: -9px;
+              letter-spacing: 0.2em;
+              border-radius: 20px;
+            }
+          }
+          .form-body{
+            span{
+              display: inline-block;
+              margin-right: 100px;
+              margin-bottom: 18px;
+            }
+            .l-spacing{
+              display: inline;
+              letter-spacing: 1em;
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

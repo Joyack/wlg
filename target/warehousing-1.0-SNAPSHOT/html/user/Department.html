@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>部门管理</title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/area.css" />
+		<script src="../../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/area.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/Personal/Department.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/cr1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/cr.js" type="text/javascript" charset="utf-8"></script>
+
+		<style type="text/css">
+			::-moz-placeholder {
+				color: #F0C17F;
+			}
+			
+			::-webkit-input-placeholder {
+				color: #F0C17F;
+			}
+			
+			:-ms-input-placeholder {
+				color: #F0C17F;
+			}
+			
+			.model {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: #000;
+				z-index: 10;
+				opacity: 0.3;
+				filter: alpha(opacity: 30);
+			}
+			
+			/*.bootstrap-select,*/
+			.show-tick button {
+				border: 1px solid #000;
+			}
+			
+			.glyphicon-ok:before {
+				content: "\e013";
+				float: left;
+			}
+			
+			.list {
+				border: 1px solid #92CAF0;
+				height: 92px;
+				padding: 5px;
+				position: relative;
+				margin-bottom: 35px;
+			}
+			
+			.list:first-of-type {
+				margin-top: 20px;
+			}
+			
+			.fileset {
+				position: absolute;
+				top: -19px;
+				left: 78px;
+				width: 150px;
+				background: #f1f1f1;
+				padding: 0 20px;
+			}
+			
+			.lowerList {
+				height: 92px;
+				line-height: 92px;
+				/*width:25%;*/
+				margin-left: 5%;
+				float: left;
+			}
+			
+			.lowerList:first-of-type {
+				margin-left: 5%;
+			}
+			
+			#addDepartment {
+				margin-top: 150px;
+				color: #222222;
+			}
+			#departmentMsg tr td:last-of-type span {
+				cursor: pointer;
+				color: #337ab7;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="dddd"></div>
+		<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+			<div class="row" style="height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);">
+				<h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+					<span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;" />部门信息</span>
+					<div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+						<div class="input-group"style="width: 200px;">
+							<input class="form-control" style="text-align:left;" type="text" id="seachbox" name="search" placeholder="部门名称"/>
+							<span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;" onclick="search();">搜索</span>
+						</div>
+					</div>
+				</h3>
+			</div>
+			<div class="row" style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px;">
+				<table class="table table-striped" style="color:#374650;">
+					<thead>
+						<tr style="background:#AFD8F4;">
+							<td>部门编号<span class="pull-right">|</span></td>
+							<td>部门名称<span class="pull-right">|</span></td>
+							<td>状态<span class="pull-right">|</span></td>
+							<td style="position:relative;">操作<span class="addDepart" id="addDepart" onclick="openAddDepart();">+</span></td>
+						</tr>
+					</thead>
+					<tbody id="departmentMsg">
+					</tbody>
+				</table>
+				<div class="btn-group" style="margin-left:40%;" id="departmentBtns">
+					<span class="btn btn-default" onclick="department.pageType('preAllPage');">首页</span>
+					<span class="btn btn-default" onclick="department.pageType('prePage');">上一页</span>
+					<span class="btn btn-default disabled" id="departmentNumber">0/0</span>
+					<span class="btn btn-default" onclick="department.pageType('nextPage');">下一页</span>
+					<span class="btn btn-default" onclick="department.pageType('nextAllPage');">尾页</span>
+					<span class="btn btn-default disabled">共<span id="departmentTotal">0</span>条</span>
+				</div>
+			</div>
+			<!--新增部门信息-->
+			<div class="modal" id="addDepartModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="fadeIn()" style="margin-top: -5px;">&times;</button>
+							<h4 class="modal-title">&gt;新增</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addDepartNumber">部门编号</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="addDepartNumber" id="addDepartNumber" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addDepartName">部门名称</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="addDepartName" id="addDepartName" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="addStatus">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<select name="addStatus" id="addStatus" class="form-control" style="border-color:#000;">
+										<option value="1">使用</option>
+										<option value="2">禁用</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="button" class="btn btn-primary" id="" onclick="submitAddDepart()" style="width: 80px;" value="提交" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--修改部门信息-->
+			<div class="modal" id="editDepartment">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="fadeIn()" style="margin-top: -5px;">&times;</button>
+							<h4 class="modal-title">&gt;编辑</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editdepartNumber">部门编号</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="editdepartNumber" id="editdepartNumber" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editDepartName">部门名称</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<input type="text" name="editDepartName" id="editDepartName" class="form-control" style="border-color:#000;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top: 20px;">
+								<div class="col-xs-2 col-xs-push-1">
+									<label for="editStatus">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</label>
+								</div>
+								<div class="col-xs-8 col-xs-push-1">
+									<select name="editStatus" class="form-control" id="editStatus" style="border-color:#000;">
+										<option value="1">使用</option>
+										<option value="2">禁用</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="col-xs-2 col-xs-push-7">
+								<input type="button" onclick="submitEditDepart();" class="btn btn-primary" style="width: 80px;" value="提交" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="hidden" id="loadingModdle">
+				<div class="loadingModdle" style="min-width:1000px;">
+					<div>
+						<img class="loading" src="../../images/loading_more.gif">
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

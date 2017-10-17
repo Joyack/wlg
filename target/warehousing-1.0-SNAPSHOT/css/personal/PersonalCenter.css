@@ -1,0 +1,223 @@
+body {
+  background-color: #e6e6e6;
+  min-width: 1680px;
+}
+body header {
+  background-color: #1c79bf;
+  height: 120px;
+  -webkit-border-radius: 0 12px 12px 0;
+  -moz-border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0;
+}
+body header .logo {
+  width: 590px;
+}
+body header .logo .logo-img {
+  width: 120px;
+  height: 120px;
+  background: url("../img/logo.png") no-repeat 30px;
+  -webkit-background-origin: content-box;
+  background-origin: content-box;
+}
+body header .logo p {
+  position: absolute;
+  top: 39%;
+  left: 140px;
+  font-size: 40px;
+  font-family: SimHei;
+  letter-spacing: 7px;
+}
+body header .nav {
+  top: 46px;
+  left: 36%;
+  height: 100%;
+}
+body header .nav ul li {
+  float: left;
+  width: 126px;
+  height: 50px;
+  line-height: 42px;
+  text-align: center;
+}
+body header .nav ul li a {
+  height: 100%;
+  color: #fff;
+  display: block;
+  background: url("../img/li_btn.png") no-repeat;
+}
+body header .nav ul li a:hover {
+  color: #13227a;
+}
+body header .nav ul li a:active {
+  background: url("../img/li_btn.png") no-repeat 0 5px;
+}
+body header .options {
+  top: 21px;
+  left: 87%;
+  width: 13%;
+}
+body header .options p {
+  margin: 0;
+}
+body header .options div {
+  margin-right: 15%;
+}
+body header .options div a {
+  display: block;
+  width: 30px;
+  height: 50px;
+  vertical-align: bottom;
+  background: url("../img/user.png") no-repeat;
+  background-size: contain;
+  color: #fff;
+}
+body header .options div a:hover {
+  color: #13227a;
+  background-image: url("../img/user_hover.png");
+}
+body header .options div a p {
+  bottom: 0;
+  left: -19px;
+}
+body header .options .verify a {
+  background-image: url("../img/verify.png");
+}
+body header .options .verify a:hover {
+  background-image: url('../img/verify_hover.png');
+}
+body header .options .verify a p {
+  left: -3px;
+  width: 40px;
+  letter-spacing: 3px;
+}
+body header .options .quit a {
+  background-image: url("../img/quit.png");
+}
+body header .options .quit a:hover {
+  background-image: url('../img/quit_hover.png');
+}
+body header .options .quit a p {
+  width: 40px;
+  left: -4px;
+  letter-spacing: 3px;
+}
+body .wrapper {
+  height: 1000px;
+  overflow: hidden;
+}
+body .wrapper .left {
+  width: 16%;
+  height: 100%;
+  background-color: #787878;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.3em;
+}
+body .wrapper .left a {
+  display: block;
+  margin-top: 24px;
+  padding: 15px;
+  color: #fff;
+}
+body .wrapper .left a:hover {
+  color: #13227a;
+  background-color: #e6e6e6;
+}
+body .wrapper .right {
+  width: 100%;
+  height: 100%;
+}
+body .wrapper .right .bar {
+  height: 38px;
+  line-height: 32px;
+  background-color: #fff;
+  margin-top: 2px;
+  margin-left: -1px;
+}
+body .wrapper .right .bar div {
+  padding-left: 36px;
+  background: url("../img/location.png") no-repeat 16px;
+  background-size: 20px 21px;
+}
+body .wrapper .right .bar div span {
+  color: #787878;
+}
+body .wrapper .right .main {
+  background-color: #fff;
+  margin-top: 4px;
+  margin-left: -1px;
+  padding-top: 40px;
+  padding-left: 100px;
+  height: 100%;
+}
+body .wrapper .right .main .up .form-head {
+  display: flex;
+  padding-bottom: 30px;
+}
+body .wrapper .right .main .up .form-head .basic-info {
+  font-family: SimHei;
+  font-size: 20px;
+  font-weight: bold;
+}
+body .wrapper .right .main .up .form-head .line {
+  border-top: 1px solid #e6e6e6;
+  width: 75%;
+  margin: 10px 3px 0 3px;
+}
+body .wrapper .right .main .up .form-head .btn {
+  background-color: #1c79bf;
+  margin-top: -9px;
+  letter-spacing: 0.2em;
+  border-radius: 20px;
+}
+body .wrapper .right .main .up .form-body span {
+  display: inline-block;
+  margin-right: 100px;
+  margin-bottom: 18px;
+}
+body .wrapper .right .main .up .form-body .u_name {
+  margin-left: 1em;
+}
+body .wrapper .right .main .up .form-body .role,
+body .wrapper .right .main .up .form-body .name,
+body .wrapper .right .main .up .form-body .email {
+  margin-left: 1em;
+}
+body .wrapper .right .main .up .form-body .l-spacing {
+  display: inline;
+  margin-left: 1em;
+  margin-right: 0;
+}
+body .wrapper .right .main .down {
+  margin-top: 100px;
+}
+body .wrapper .right .main .down .form-head {
+  display: flex;
+  padding-bottom: 30px;
+}
+body .wrapper .right .main .down .form-head .basic-info {
+  font-family: SimHei;
+  font-size: 20px;
+  font-weight: bold;
+}
+body .wrapper .right .main .down .form-head .line {
+  border-top: 1px solid #e6e6e6;
+  width: 75%;
+  margin: 10px 3px 0 3px;
+}
+body .wrapper .right .main .down .form-head .btn {
+  background-color: #1c79bf;
+  margin-top: -9px;
+  letter-spacing: 0.2em;
+  border-radius: 20px;
+}
+body .wrapper .right .main .down .form-body span {
+  display: inline-block;
+  margin-right: 100px;
+  margin-bottom: 18px;
+}
+body .wrapper .right .main .down .form-body .l-spacing {
+  display: inline;
+  letter-spacing: 1em;
+  margin-right: 0;
+}

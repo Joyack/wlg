@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/personal/public.css">
+    <link rel="stylesheet" href="../css/personal/PersonalCenter.css">
+    <script src="../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/area.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <title>个人信息</title>
+</head>
+<script type="text/javascript">
+    $(function () {
+        getLoginUser();
+    });
+
+    function getLoginUser() {
+        $.ajax({
+            url: HEADER + "user/check_getPrincipalUser.do",
+            type: "get",
+            success: function (d) {
+                var data = d.result;
+                $("#rolename").html(data.rname);
+                $("#uname").html(data.uname);
+                $("#username").html(data.username);
+                $("#email").html(data.email);
+                $("#dept").html(data.deptname);
+            },
+        });
+    }
+
+
+    function updatepass() {
+        var oldpass = $("#oldpass").val();
+        var newpass = $("#newpass").val();
+        var surpass = $("#surpass").val();
+        if (newpass != surpass) {
+            cr_dialogBox.alert(true, "新密码与确认密码输入不一致！请重新输入");
+            return;
+        }
+        $.ajax({
+            url: HEADER + "user/update_UserByself.do",
+            type: "post",
+            data: {
+                "oldpasd": oldpass,
+                "password": newpass,
+                "username": $("#username").html()
+
+            },
+            success: function (d) {
+                var status = d.status;
+                if (status == "2") {
+                    cr_dialogBox.alert(true, "用户名为空");
+                    return;
+                } else if (status == "3") {
+                    cr_dialogBox.alert(true, "未登录");
+                    return;
+                }
+                else if (status == "4") {
+                    cr_dialogBox.alert(true, "用户不存在");
+                    return;
+                }
+                else if (status == "5") {
+                    cr_dialogBox.alert(true, "登录用户与修改用户不一致");
+                    return;
+                } else if (status == "6") {
+                    cr_dialogBox.alert(true, "旧密码不正确");
+                    return;
+                } else {
+                    cr_dialogBox.alert(true, "修改成功");
+                }
+            },
+        })
+    }
+
+</script>
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;">
+    <div class="wrapper">
+        <div class="right fl">
+            <div class="row"
+                 style="margin-left:2.5%;margin-right: 2.5%;height: 50px;line-height:50px;background:url(../images/addUser_bg.png);position: relative;">
+                <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+                    <span><img src="../img/location.png" width="23px;" style="margin-bottom: 5px;"/>个人信息</span>
+                </h3>
+            </div>
+            <div class="main" style="margin-top: 8px;margin-left:2.5%;margin-right: 2.5%;">
+                <div class="up">
+                    <div class="form-head">
+                        <div class="basic-info">基本信息</div>
+                        <div class="line"></div>
+                        <div class="btn btn-success">保存</div>
+                    </div>
+                    <div class="form-body">
+                        <span class="u_name">用户名：</span> <span id="username"></span><br>
+                        <span class="role">角<span class="l-spacing">色：</span></span> <span id="rolename"></span><br>
+                        <span class="name">姓<span class="l-spacing">名：</span></span> <span id="uname"></span><br>
+                        <span class="email">邮<span class="l-spacing">箱：</span></span> <span id="email"></span><br>
+                        <span class="department">所属部门：</span> <span id="dept"></span>
+                    </div>
+                </div>
+                <div class="down">
+                    <div class="form-head">
+                        <div class="basic-info">修改密码</div>
+                        <div class="line"></div>
+                        <button class="btn btn-success" type="submit" onclick="updatepass();">保存</button>
+                    </div>
+                    <div class="form-body">
+                        <span><span class="l-spacing">旧密</span>码：</span><input type="password" id="oldpass"><br>
+                        <span><span class="l-spacing">新密</span>码：</span><input type="password" id="newpass"><br>
+                        <span>确认新密码：</span><input type="password" id="surpass">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</body>
+</html>

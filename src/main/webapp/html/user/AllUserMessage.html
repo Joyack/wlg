@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/area.css"/>
+    <script src="../../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/area.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/Personal/AllUserMessage.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/cr1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/cr.js" type="text/javascript" charset="utf-8"></script>
+
+    <style type="text/css">
+        ::-moz-placeholder {
+            color: #F0C17F;
+        }
+
+        ::-webkit-input-placeholder {
+            color: #F0C17F;
+        }
+
+        :-ms-input-placeholder {
+            color: #F0C17F;
+        }
+
+        .model {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10;
+            opacity: 0.3;
+            filter: alpha(opacity:30);
+        }
+
+        .bootstrap-select,
+        .show-tick button {
+            border: 1px solid #000;
+        }
+
+        .glyphicon-ok:before {
+            content: "\e013";
+            float: left;
+        }
+
+        .list {
+            border: 1px solid #92CAF0;
+            height: 92px;
+            padding: 5px;
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .list:first-of-type {
+            margin-top: 20px;
+        }
+
+        .fileset {
+            position: absolute;
+            top: -19px;
+            left: 78px;
+            width: 150px;
+            background: #f1f1f1;
+            padding: 0 20px;
+        }
+
+        .lowerList {
+            height: 92px;
+            line-height: 92px;
+            /*width:25%;*/
+            margin-left: 5%;
+            float: left;
+        }
+
+        .lowerList:first-of-type {
+            margin-left: 5%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+    <div class="row" style="height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);">
+        <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+            <span><img src="../../img/location.png" width="23px;" style="margin-bottom: 7px;"/>用户信息</span>
+            <div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+                <div class="input-group" style="width: 200px;">
+                    <input class="form-control" style="text-align:left;" type="text" name="search"
+                           placeholder="用户名/姓名"/>
+                    <span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;"
+                          onclick="searchMsg(this);">搜索</span>
+                </div>
+            </div>
+        </h3>
+    </div>
+    <div class="row" style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px;">
+        <table class="table table-striped" style="color:#374650;">
+            <thead>
+            <tr style="background:#AFD8F4;">
+                <!--<td>用户ID<span class="pull-right">|</span></td>-->
+                <td>用户名<span class="pull-right">|</span></td>
+                <td>姓名<span class="pull-right">|</span></td>
+                <td>手机<span class="pull-right">|</span></td>
+                <td>所属部门<span class="pull-right">|</span></td>
+                <td>邮箱<span class="pull-right">|</span></td>
+                <td>角色<span class="pull-right">|</span></td>
+                <td style="position: relative;">相关操作
+                    <div data-times="0" id="addUser" onclick="addUser(this);">+</div>
+                </td>
+            </tr>
+            </thead>
+            <tbody id="userMsg">
+            <!-- 用户列表-->
+            </tbody>
+        </table>
+        <div class="btn-group" style="margin-left:40%;" id="allBtns">
+            <span class="btn btn-default" onclick="allUserMessageList.pageType('preAllPage');">首页</span>
+            <span class="btn btn-default" onclick="allUserMessageList.pageType('prePage');">上一页</span>
+            <span class="btn btn-default disabled" id="pageNumber">0/0</span>
+            <span class="btn btn-default" onclick="allUserMessageList.pageType('nextPage');">下一页</span>
+            <span class="btn btn-default" onclick="allUserMessageList.pageType('nextAllPage');">尾页</span>
+            <span class="btn btn-default disabled">共<span id="allUserMsgTotal">0</span>条</span>
+        </div>
+    </div>
+    <!--修改信息-->
+    <div class="container-fluid" style="display: none;" id="alterPasswsord">
+        <div style="background: #fff;position: absolute;top: 30%;left: 35%;z-index: 11;width: 450px;">
+            <br/>
+            <div id="error">
+                <p style="display:none;text-align: center;font-size: 15px;color:red;"></p>
+            </div>
+            <div class="modal-header" style="margin-top: 2px;height: 50px;">
+                <button onclick="fadeIn()" type="button" class="close" style="margin-top: -5px;"><span>&times;</span>
+                </button>
+                <h4 class="modal-title">&gt;编辑</h4>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="name">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <input type="text" name="name" id="name" class="form-control" style="border-color:#000;"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="phoneNumber">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <input type="text" name="phoneNumber" id="phoneNumber" class="form-control"
+                           style="border-color:#000;"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="depts">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <select name="depts" class="form-control" id="depts" style="border-color:#000;"
+                            onchange="checkType(this);"></select>
+                    <span id="deptsName" style="display: none;"></span>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="email">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <input type="text" name="email" id="email" class="form-control" style="border-color:#000;"/>
+                    <input type="hidden" name="userId" id="userId" class="form-control" style="border-color:#000;"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="roles">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <select name="roles" class="form-control" id="roles" style="border-color:#000;"
+                            onchange="checkType(this);"></select>
+                    <span id="rolesName" style="display: none;"></span>
+                </div>
+            </div>
+            <br/>
+            <!--若选中显示自定义则显示-->
+            <div class="row hidden">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="mainMenu">主&nbsp;&nbsp;菜&nbsp;&nbsp;单:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <select class="selectpicker show-tick form-control" id="mainMenu" name="mainMenu"
+                            onchange="getSubMenu(this);" style="border:1px #000;" multiple data-live-search="false">
+                    </select>
+                </div>
+            </div>
+            <div class="row hidden" style="margin-top: 18px;margin-bottom: 18px;">
+                <div class="col-xs-2 col-xs-push-1">
+                    <label for="subMenu">子&nbsp;&nbsp;菜&nbsp;&nbsp;单:</label>
+                </div>
+                <div class="col-xs-8 col-xs-push-1">
+                    <select class="selectpicker show-tick form-control" id="subMenu" name="subMenu"
+                            style="border:1px #000;" multiple data-live-search="false">
+                    </select>
+                </div>
+            </div>
+            <!--结束-->
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-7">
+                    <input type="button" onclick="submitMsg();" class="btn btn-primary" style="width: 80px;"
+                           value="提交"/>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div style="min-width: 1000px;" class="model" onclick="fadeIn();" id="model"></div>
+    </div>
+    <!--自定义权限分配列表-->
+    <div class="container hidden" id="permissionsAssignment">
+        <div class="cr_moddle" style="z-index: 1;"></div>
+        <div style="background: #f1f1f1;position: absolute;top: 10%;left: 5%;z-index: 555;width: 90%;height:80%;min-width: 1000px;overflow-x: hidden;z-index: 11;">
+            <div class="row" id="box" style="position: relative;">
+                <div class="col-md-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-2">
+                            <h4>权限列表:</h4>
+                        </div>
+                        <div class="col-md-2 col-xs-2" style="position: absolute;right: 0;top: 0;width: 300px;">
+                            <span class="btn btn-primary" id="cancleUserRole"
+                                  style="margin-top: 10px;margin-right: 15px;"
+                                  onclick="canclePersonRole(this);">取消自定义权限</span>
+                            <span class="btn btn-primary" style="margin-top: 10px;margin-right: 15px;"
+                                  onclick="submitRoleMsg(this);">提交</span>
+                            <span class="btn btn-primary" style="margin-top: 10px;" onclick="closeModdle11();">X</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="permission"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="loadingModdle">
+    <div class="loadingModdle" style="min-width:1000px;">
+        <div>
+            <img class="loading" src="../../images/loading_more.gif">
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

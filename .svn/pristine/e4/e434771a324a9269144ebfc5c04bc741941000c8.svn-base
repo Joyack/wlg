@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>采购合同</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/area.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/personal/StockManagement.css">
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.min.css"/>
+    <script src="../../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-datetimepicker.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/area.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="../../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/cr1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/normal.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+        .addItem {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            font-size: 50px;
+            color: #FF9205;
+            cursor: pointer;
+        }
+
+        #itemManagementMsg tr td:last-of-type span {
+            cursor: pointer;
+            color: #337ab7;
+        }
+
+        #itemManagementMsg tr td:last-of-type span:hover {
+            text-decoration: underline;
+        }
+
+        span.form-control {
+            border: none;
+            outline: none;
+            background: none;
+        }
+
+        #purManagementMsg tr td label {
+            font-weight: 100;
+            margin: 0px;
+        }
+
+        #purManagementMsg tr td:first-of-type {
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #purManagementMsg tr td:last-of-type label span {
+            cursor: pointer;
+            color: #337ab7;
+        }
+
+        #purManagementMsg tr td:last-of-type label span:hover {
+            text-decoration: underline;
+        }
+
+        div label {
+            font-weight: 100;
+        }
+
+        .successClass {
+            color: forestgreen; /*审核通过*/
+        }
+
+        .pendingClass {
+            color: dodgerblue; /*审核中*/
+        }
+
+        .notpassClass {
+            color: orangered; /*审核未通过*/
+        }
+
+        .othersClass {
+            color: #0e0e0e; /*其他*/
+        }
+    </style>
+</head>
+
+<body>
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;width: 95%;">
+    <div class="row"
+         style="height: 50px;line-height:50px;background:url(../../images/addUser_bg.png);position: relative;">
+        <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+            <span><img src="../../img/location.png" width="23px;" style="margin-bottom: 5px;"/>采购合同</span>
+            <div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+                <div class="input-group" style="width: 240px;">
+                    <input class="form-control" style="text-align:left;" type="text" id="search" name="search"
+                           placeholder="采购单号、物品名称"/>
+                    <span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;"
+                          onclick="search();">搜索</span>
+                </div>
+            </div>
+        </h3>
+        <!--导出按钮-->
+        <!--<div style="width: 365px;position: absolute;top: 7px;right:20px;">
+            <div class="col-md-2 col-xs-2 input-group" style="width: 260px;margin-left: 100px;">
+                <input id="EanquanSearch" class="form-control" type="text" name="search" placeholder="用户名、操作模块、操作内容"/>
+                <span class="input-group-addon btn btn-primary" style="background:#5CB85C;color:#fff;" onclick="searchMsg1(this);">搜索</span>
+            </div>
+        </div>-->
+    </div>
+    <div class="row" style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px;">
+        <div class="col-md-12 col-xs-12" style="height:80px;">
+            <!--<div style="float: left;margin-top: 25px;width: 200px;">-->
+            <!--&lt;!&ndash;<input class="form-control" type="text" name="search" id="search" placeholder="采购单号、物品名称" />&ndash;&gt;-->
+            <!--</div>-->
+            <div style="float: left;margin: 25px 0 0 10px;">
+                <label style="font-weight: 100;">类&nbsp;&nbsp;&nbsp;&nbsp;型&nbsp;:</label>
+            </div>
+            <div class="col-md-1 col-xs-1" style="margin-top: 25px;width:200px;">
+                <select class="form-control" id="purchType" onchange="search()">
+                    <option value="01">未完全入库</option>
+                    <option value="02">已完全入库</option>
+                    <option value="">全部</option>
+                </select>
+            </div>
+            <!--<div class="col-md-1 col-xs-1" style="margin-right:50px;margin-top: 25px;width:80px">-->
+            <!--<span class="btn btn-primary" onclick="search();">搜索</span>-->
+            <!--</div>-->
+            <div class="col-md-1 col-xs-1" style="margin-top: 25px;width:80px;">
+                <span class="btn btn-primary" onclick="openGoodsInModdle();">入库</span>
+            </div>
+            <div class="col-md-1 col-xs-1" style="margin-top: 25px;width:80px;">
+                <span class="btn btn-primary" onclick="openGoodsRetrun();">退货</span>
+            </div>
+            <div class="col-md-1 col-xs-1 pull-right" style="margin-top: 25px;width:120px;">
+                <span class="btn btn-primary" onclick="openEnterShoppingList();">录入采购单</span>
+            </div>
+        </div>
+        <table class="table table-striped" style="color:#374650;">
+            <thead>
+            <tr style="background:#AFD8F4;">
+                <td>采购单号<span class="pull-right">|</span></td>
+                <td>物品名称<span class="pull-right">|</span></td>
+                <td>规格型号<span class="pull-right">|</span></td>
+                <td>单位<span class="pull-right">|</span></td>
+                <td>供应商<span class="pull-right">|</span></td>
+                <td>采购日期<span class="pull-right">|</span></td>
+                <td>采购数量<span class="pull-right">|</span></td>
+                <td>入库状态<span class="pull-right">|</span></td>
+                <td>已入库数量<span class="pull-right">|</span></td>
+                <td>待入库数量<span class="pull-right">|</span></td>
+                <td style="position:relative;">操作</td>
+            </tr>
+            </thead>
+            <tbody id="purManagementMsg">
+
+            </tbody>
+        </table>
+        <div class="btn-group" style="margin-left:40%;" id="purManagementBtns">
+            <span class="btn btn-default" onclick="purManagement.pageType('preAllPage');">首页</span>
+            <span class="btn btn-default" onclick="purManagement.pageType('prePage');">上一页</span>
+            <span class="btn btn-default disabled" id="purManagementNumber">0/0</span>
+            <span class="btn btn-default" onclick="purManagement.pageType('nextPage');">下一页</span>
+            <span class="btn btn-default" onclick="purManagement.pageType('nextAllPage');">尾页</span>
+            <span class="btn btn-default disabled">共<span id="purManagementTotal">0</span>条</span>
+        </div>
+    </div>
+</div>
+<!--入库记录-->
+<div class="modal" id="inventoryRecords" style="margin-top: 3%;">
+    <div class="modal-dialog" role="document" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">&gt;操作记录</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead style="background:#e2e2e2;">
+                    <tr>
+                        <td>序号<span class="pull-right">|</span></td>
+                        <td>操作时间<span class="pull-right">|</span></td>
+                        <td>操作类型<span class="pull-right">|</span></td>
+                        <td>经办人<span class="pull-right">|</span></td>
+                        <td>数量<span class="pull-right">|</span></td>
+                        <td>审核状态</td>
+                    </tr>
+                    </thead>
+                    <tbody id="itemDetailsMsg"></tbody>
+                </table>
+                <div class="btn-group" style="margin-left:35%;" id="itemDetailsBtns">
+                    <span class="btn btn-default" onclick="itemDetails.pageType('preAllPage');">首页</span>
+                    <span class="btn btn-default" onclick="itemDetails.pageType('prePage');">上一页</span>
+                    <span class="btn btn-default disabled" id="itemDetailsNumber">0/0</span>
+                    <span class="btn btn-default" onclick="itemDetails.pageType('nextPage');">下一页</span>
+                    <span class="btn btn-default" onclick="itemDetails.pageType('nextAllPage');">尾页</span>
+                    <span class="btn btn-default disabled">共<span id="itemDetailsTotal">0</span>条</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--货物入库-->
+<div class="modal" id="goodsInventory" style="margin-top: 10%;">
+    <div class="modal-dialog" role="document" style="width: 602px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">&gt;入库</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>物品名称：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <label id="inGoodsName"></label>
+                            <input type="hidden" id="inOrder"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购数量：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <label id="inShouldNum"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 140px;margin-left:-15px;">
+                            <label>待入库数量：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8 ellipsis" style="width: 145px;margin-left: -4px;">
+                            <label id="inStackNum"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>入库数量：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <input type="text" class="form-control" id="inStackedNum"
+                                   onchange="cr_normal.checkInteger(this)"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width:100px;">
+                            <label>入库类型：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 155px;">
+                            <select class="form-control" id="inStackType">
+                                <option value="01">采购入库</option>
+                                <option value="02">换新入库</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6" style="margin-top:6px">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>入库时间：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 175px;margin-left:-10px">
+                            <input type="text" class="form-control time-select" id="RkTime" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>仓&nbsp;&nbsp;管&nbsp;&nbsp;员：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 160px;">
+                            <div>
+                                <select class="form-control" id="ckmanager"
+                                        data-live-search="true"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitIncomingMsg();">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--退货出库-->
+<div class="modal" id="returnGoods" style="margin-top: 10%;">
+    <div class="modal-dialog" role="document" style="width: 605px;">
+        <div class="modal-content" style="padding:5px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">&gt;退货出库</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>物品名称：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <label id="outGoodsName"></label>
+                            <input type="hidden" id="outOrder"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>规格型号：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <label id="outGspec"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <label id="outUnit"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>供&nbsp;&nbsp;货&nbsp;&nbsp;商：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <label id="outProvider"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 130px;margin-left: -30px;">
+                            <label>退货物品状态：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 160px;margin-bottom: 5px;">
+                            <select class="form-control" id="outReturnType" onchange="getReturnType(this);">
+                                <option value="00">故障</option>
+                                <option value="01">正常</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 120px;margin-left: -14px;">
+                            <label>可退货数量：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7" style="width: 145px;">
+                            <label id="couldReturnNum"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>退货数量：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 160px;">
+                            <input class="form-control" type="text" id="outNumber"
+                                   onchange="cr_normal.checkInteger(this);"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6" style="padding-top:5px">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>仓&nbsp;&nbsp;管&nbsp;&nbsp;员：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 160px;">
+                            <div>
+                                <select class="form-control" id="StockManager"
+                                        data-live-search="true"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6" style="padding-top:5px">
+                        <div class="col-md-1 col-xs-1" style="width:  100px;">
+                            <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 160px;">
+                            <div>
+                                <select class="form-control" id="StockChecker" data-live-search="true"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6" style="padding-top:5px">
+                        <div class="col-md-1 col-xs-1" style="width:  100px;">
+                            <label>抄&nbsp;&nbsp;送&nbsp;&nbsp;人：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 " style="width: 160px;">
+                            <div>
+                                <select class="selectpicker show-tick form-control" id="StockCSPerson"
+                                        data-live-search="false" multiple></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitReturnMsg();">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--录入采购清单-->
+<div class="modal" id="enterShoppingList" style="margin-top: 10%;">
+    <div class="modal-dialog" role="document" style="width: 605px;">
+        <div class="modal-content" style="padding:5px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">&gt;录入采购清单</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购单号：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <label id="enterShoppingOrderNumber"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>物品名称：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <select class="form-control" id="addGoodsType" onchange="getOtherMsg(this);"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px;">
+
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>规格型号：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <label id="addGspec"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>供&nbsp;&nbsp;货&nbsp;&nbsp;商：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <label id="addProvider"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <label id="shoppingUnit"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购数量：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <input class="form-control" id="addNumber"
+                                   onchange="cr_normal.checkInteger(this);checkHasValue();" type="text"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购单价：</label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
+                            <!--<input class="form-control" id="addCgPrice" type="text"  onchange="return this.value=cr_normal.getFloatStr(this.value);"/>-->
+                            <input class="form-control" id="addCgPrice" type="text"
+                                   onchange="cr_normal.checkIsNumber(this);checkHasValue();"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购金额：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8" style="width: 165px;">
+                            <input class="form-control" id="addCgMoney" disabled type="text"
+                                   title="输入采购数量和采购单价自动算出采购金额"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="col-md-1 col-xs-1" style="width: 100px;">
+                            <label>采购时间：</label>
+                        </div>
+                        <div class="col-md-8 col-xs-8 ellipsis" style="width: 175px;margin-left:-10px">
+                            <input type="text" class="form-control time-select" id="CgTime" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addPurchaseList();">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="loadingModdle">
+    <div class="loadingModdle" style="min-width:1000px;">
+        <div>
+            <img class="loading" src="../../images/loading_more.gif">
+        </div>
+    </div>
+</div>
+<script src="../../js/Personal/PurchaseContract.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+body {
+  background-color: #e6e6e6;
+  min-width: 1680px;
+}
+body header {
+  background-color: #1c79bf;
+  height: 120px;
+  -webkit-border-radius: 0 12px 12px 0;
+  -moz-border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0;
+}
+body header .logo {
+  width: 590px;
+}
+body header .logo .logo-img {
+  width: 120px;
+  height: 120px;
+  background: url("../img/logo.png") no-repeat 30px;
+  -webkit-background-origin: content-box;
+  background-origin: content-box;
+}
+body header .logo p {
+  position: absolute;
+  top: 39%;
+  left: 140px;
+  font-size: 40px;
+  font-family: SimHei;
+  letter-spacing: 7px;
+}
+body header .nav {
+  top: 46px;
+  left: 36%;
+  height: 100%;
+}
+body header .nav ul li {
+  float: left;
+  width: 126px;
+  height: 50px;
+  line-height: 42px;
+  text-align: center;
+}
+body header .nav ul li a {
+  height: 100%;
+  color: #fff;
+  display: block;
+  background: url("../img/li_btn.png") no-repeat;
+}
+body header .nav ul li a:hover {
+  color: #13227a;
+}
+body header .nav ul li a:active {
+  background: url("../img/li_btn.png") no-repeat 0 5px;
+}
+body header .options {
+  top: 21px;
+  left: 87%;
+  width: 13%;
+}
+body header .options p {
+  margin: 0;
+}
+body header .options div {
+  margin-right: 15%;
+}
+body header .options div a {
+  display: block;
+  width: 30px;
+  height: 50px;
+  vertical-align: bottom;
+  background: url("../img/user.png") no-repeat;
+  background-size: contain;
+  color: #fff;
+}
+body header .options div a:hover {
+  color: #13227a;
+  background-image: url("../img/user_hover.png");
+}
+body header .options div a p {
+  bottom: 0;
+  left: -19px;
+}
+body header .options .verify a {
+  background-image: url("../img/verify.png");
+}
+body header .options .verify a:hover {
+  background-image: url('../img/verify_hover.png');
+}
+body header .options .verify a p {
+  left: -3px;
+  width: 40px;
+  letter-spacing: 3px;
+}
+body header .options .quit a {
+  background-image: url("../img/quit.png");
+}
+body header .options .quit a:hover {
+  background-image: url('../img/quit_hover.png');
+}
+body header .options .quit a p {
+  width: 40px;
+  left: -4px;
+  letter-spacing: 3px;
+}
+body .wrapper {
+  height: 1000px;
+  overflow: hidden;
+}
+body .wrapper .right {
+  width: 100%;
+  height: 100%;
+}
+body .wrapper .right .bar {
+  height: 38px;
+  line-height: 32px;
+  background-color: #fff;
+  margin-top: 2px;
+  margin-left: -1px;
+}
+body .wrapper .right .bar div {
+  padding-left: 36px;
+  background: url("../img/location.png") no-repeat 16px;
+  background-size: 20px 21px;
+}
+body .wrapper .right .bar div span {
+  color: #787878;
+}
+body .wrapper .right .main {
+  background-color: #fff;
+  margin-top: 4px;
+  margin-left: -1px;
+  padding-top: 20px;
+  padding-left: 20px;
+  height: 100%;
+}
+body .wrapper .right .main .navbar .btn {
+  margin-right: 7px;
+  background-color: #1c79bf;
+  color: #fff;
+}
+body .wrapper .right .main .statisHide {
+  display: none;
+}
+body .wrapper .right .main .statis-status {
+  width: 120px;
+}
+body .wrapper .right .main .statis-status select {
+  display: block;
+  width: 100px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+body .wrapper .right .main .statis-status select:nth-of-type(1) {
+  margin-top: 15px;
+}
+body .wrapper .right .main .diagram {
+  width: 57%;
+  height: 400px;
+}
+body .wrapper .right .main .goods {
+  margin-top: 100px;
+}
+body .wrapper .right .main .goods input {
+  vertical-align: text-bottom;
+}
+body .wrapper .right .main .goods div {
+  margin-bottom: 10px;
+}
+body .wrapper .right .main .goods ul li {
+  margin-left: 2em;
+  display: none;
+}
+body .wrapper .right .main .goods ul i {
+  cursor: pointer;
+  font-size: 13px;
+}
+.show {
+  display: block !important;
+}

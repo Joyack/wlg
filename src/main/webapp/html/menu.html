@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/personal/public.css">
+    <link rel="stylesheet" href="../css/personal/menu.css">
+    <script src="../js/jquery-1.11.3.js"></script>
+    <script src="../js/template-web.js"></script>
+    <script src="../js/Personal/menu1.js"></script>
+    <script src="../js/area.js"></script>
+    <script src="../js/cr.js"></script>
+    <title>瓦良格仓储系统</title>
+</head>
+
+<body>
+<!--头部-->
+<header class="rel">
+    <div class="logo abs">
+        <div class="logo-img"></div>
+        <p>瓦良格仓储管理系统</p>
+    </div>
+    <div class="nav abs">
+        <ul id="nav-ul">
+
+        </ul>
+    </div>
+    <div class="options abs">
+        <div class="info fl">
+            <a href="PersonalCenter.html">
+                <p class="abs">个人信息</p>
+            </a>
+        </div>
+        <div class="verify fl">
+            <a class="rel" href="Auditing.html">
+                <p class="abs">审核</p>
+            </a>
+        </div>
+        <form action="../login/logout.do" id="logoutform" method="post">
+            <div class="quit fl" id="exit">
+                <a class="rel" href="#">
+                    <p class="abs quit"> 退出 </p>
+                </a>
+            </div>
+        </form>
+
+    </div>
+</header>
+<div class="wrapper">
+    <div class="right fl">
+        <iframe src="Auditing.html" frameborder="0"></iframe>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!--导航栏模板-->
+<script id="navTem" type="text/html">
+    {{each result value j}}
+    <li>
+        <span class="level-one">{{result[j].resourcename}}</span>
+        <ul class="clearfix">
+            {{each result[j].menu_list value i}}
+            <li>
+                <a href='{{result[j].menu_list[i].url}}'>
+                    {{result[j].menu_list[i].resourcename}}
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </li>
+    {{/each}}
+</script>
+</body>
+
+</html>

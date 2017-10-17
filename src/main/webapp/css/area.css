@@ -1,0 +1,516 @@
+/*省略号*/
+.ellipsis{
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis;
+}
+
+div#rMenu ul li{
+	margin: 1px 0;
+	padding: 0 5px;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color: #fff;
+}
+#areaSelect div #treeDom{
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.areaInput{
+	width: 100%;
+	height: 40px;
+	background:#92caf0;
+	margin-top: 5px;
+}
+.areaInput #areaInput{
+	height: 32px;
+	width: 94%;
+	margin: 4px 0 0 3%;
+	border-radius: 18px;
+	padding:0 5%;
+	outline: none;
+	border: none;
+}
+
+			/*菜单页面样式*/
+			ul li{
+				list-style: none;
+			}
+			header{
+				height: 100px;
+				background:#AFD8F4;
+				width: 100%;
+				border-radius:0 0 12px 12px;
+			}
+			.pointer{
+				cursor:pointer;
+			}
+			#warnning{
+				width: 100%;
+			}
+			#warnning li{
+				height: 47px;
+				line-height: 47px;
+				font-size:20px;
+				color:#DDEAF5;
+				border-bottom:1px solid #5B91B5;
+				text-align: center;
+			}
+			#warnning li:first-of-type{
+				height: 90px;
+				line-height: 80px;
+			}
+			#warnning li:last-of-type{
+				height:60px;
+				margin-top: 20px;
+				text-align: right;
+				border-bottom:none;
+			}
+			#warnning li:first-of-type span{
+				font-size: 30px;
+				display: inline-block;
+			}
+			#images div div img{
+				cursor:pointer;
+			}
+			.circle{
+				position:absolute;
+				top:5px;
+				width: 30px;
+				height: 30px;
+				line-height: 24px;
+				background:red;
+				border-radius: 50%;
+			}
+			
+			#allDrowmenu1 li span{
+				margin-left: 7px;
+			}
+			/*设置导航栏中每个选项的样式*/
+			#allDrowmenu1 .menuList{
+				height: 100px;
+				line-height: 100px;
+				width: 150px;
+				cursor:pointer;
+			}
+			/*设置导航栏中下拉菜单的每个选项的样式*/
+			#allDrowmenu1 li ul{
+				display: none;
+				padding:0;
+				background:#5FBFFF;
+				/*margin-top: -30px;*/
+			}
+			
+			#allDrowmenu1 li:hover ul{
+				display: block;
+			}
+			/*#allDrowmenu1 li ul li a{
+				color:#193D54;
+				text-align: center;
+				cursor:pointer;
+				display: block;
+				overflow: hidden;
+			}*/
+			#allDrowmenu1 li ul li:hover{
+				background:#94CEF6;
+			}
+			h3 input{
+				border: none;
+				background:none;
+				text-align: center;
+				outline: none;
+			}
+			h3 ::-moz-placeholder { color: #333; }
+			h3 ::-webkit-input-placeholder { color:#333; }
+			h3 :-ms-input-placeholder { color:#333; }
+			/*--------------------------登录页面样式---------------------------------------*/
+			header{
+				height: 100px;
+				background:#AFD8F4;
+				width: 100%;
+				border-radius:0 0 12px 12px;
+			}
+			div label{
+				margin-top: 8px;
+			}
+			form h2{
+				text-align: center;
+				font-size:40px;
+				border-bottom: 1px solid #000;
+				width: 80%;
+				margin-left: 8%;
+			}
+			.mycode{
+	            display: block;
+	            width: 90px;
+	            height: 40px;
+	            vertical-align: middle;
+	            position: absolute;
+	            top:0;
+	            right:-5px;
+	        }
+	        #error{text-align: center;font-size: 20px;line-height: 20px;font-weight: 700;border: none;}
+			
+			
+			/*----------------------功能页面样式-------------------------------*/
+			ul,li{
+				list-style: none;
+				padding: 0;
+			}
+			body{
+				min-width: 1000px;
+				background:#eeeeee;/*每个内联页面的页面背景色*/
+			}
+			input[type="checkbox"]{
+				background:#fff;
+			}
+			#allDrowmenu{
+				padding: 0;
+			}
+			#allDrowmenu .menuList{
+				line-height:30px;
+				padding-left: 10%;
+				border-bottom: 1px solid #aaa;
+			}
+			#allDrowmenu .menuList ul{
+				margin:-10px 0 0 -10%;
+				padding:0;
+			}
+			#allDrowmenu .menuList ul li{
+				padding-left: 30%;
+			}
+			#allDrowmenu .menuList ul li a{
+				text-decoration: none;
+				display:inline-block;
+				width: 100%;
+				color:#000;
+				opacity: 0.85;
+			}
+			li label{
+				margin-left: 5px;
+			}
+			
+			.table thead tr td{
+				height: 50px;
+				line-height: 40px;
+				text-align: center;
+				font-size:14px;
+			}
+			.table tbody tr td{
+				text-align: center;
+			}
+			.table tbody tr:last-of-type{
+				border-bottom:1px solid #ddd;
+			}
+			
+			/* 右边的加号 */
+			#addProv,#addUser,#addDepart,#addRole{
+				position: absolute;
+				top: 10px;
+				right: -30px;
+				font-size: 50px;
+				color: #FF9205; /* 橙色 */
+				cursor:pointer;
+			}
+			.box{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background:#000;
+				opacity:0.3;
+				filter:alpha(opacity:30);
+				z-index: 3;
+			}
+			.box1{
+				width: 60%;
+				background:#fff;
+				position: absolute;
+				top: 24%;
+				left: 20%;
+				padding-bottom:15px;
+				z-index: 4;
+			}
+			.box1 div p{
+				padding-left: 5px;
+			}
+			div label{
+				margin-top: 8px;
+			}
+			form div div .form-control{
+				outline: none;
+				box-shadow: none;
+				font-size: 18px;
+			}
+			form .form-group div[class*='col-md-6']{
+				padding: 0;
+			}
+			.form-group div[class*="col-"] input[readonly="readonly"]{
+				border: none;
+				background: #fff;
+				outline: none;
+				box-shadow: none;
+			}
+			#timeSet{
+				color: red;
+				font-size: 17px;
+				margin-top: 8px;
+				padding-left: 10%;
+			}
+			
+			tr td input[type="text"]{
+				border:none;
+				background:none;
+				outline: none;
+				box-shadow: none;
+				text-align: center;
+			}
+			tr td input[type="text"]:focus{
+				box-shadow: none;
+			}
+			#myTabContent div div .table thead tr td{
+				height: 50px;
+				line-height: 40px;
+				text-align: center;
+				font-size:14px;
+			}
+			#myTabContent div div .table tbody tr td{
+				font-size:14px;
+			}
+			#myTabContent div div .table tbody tr td{
+				text-align: center;
+			}
+			ul li .areaIcon{
+				text-ailgn:center;
+				width:25px;
+				height:43px;
+				line-height:43px;
+				cursor:pointer;
+			}
+			ul li .areaIcon:hover{
+				color:#31B0D5;
+			}
+			ul li .areaIcon:nth-of-type(2){
+				margin-left: 10px;
+				margin-right:5px;
+			}
+			/*列表中的编辑和删除*/
+			/*.operate{*/
+				/*color:#337ab7;*/
+				/*text-decoration: none;*/
+			/*}*/
+			/*.operate :hover{*/
+				/*color:#23527c;*/
+				/*text-decoration: underline;*/
+				/*cursor:pointer;*/
+			/*}*/
+			/*菜单*/
+/*导出按钮*/
+.file {
+	position: relative;
+	display: inline-block;
+	background: #337ab7;
+	border: 1px solid #99D3F5;
+	border-radius: 4px;
+	padding: 6px 14px;
+	overflow: hidden;
+	color: #fff;
+	text-decoration: none;
+	text-indent: 0;
+	line-height: 20px;
+}
+
+.file input {
+	position: absolute;
+	font-size: 100px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.file:hover {
+	background:#2e6da4;
+	border-color: #78C3F3;
+	color: #fff;
+	text-decoration: none;
+}
+
+/*表格样式*/
+.table tbody tr:nth-of-type(2n){
+	background:#fff;
+}
+.table tbody tr:last-of-type{
+	border-bottom:1px solid #000;
+}
+
+/*加载样式*/
+.loadingModdle{
+	width: 1920px;
+	height: 937px;
+	background:#fff;
+	opacity: 0.7;
+	filter:alpha(opacity:70);
+	position: absolute;
+	top: 0;
+	left:0;
+	z-index:9999;
+}
+
+.loadingModdle .loading{
+	position: fixed;
+	top: 40%;
+	left: 50%;
+}
+
+#allDrowmenu1 li .special{
+	background:none;
+	border:none;
+}
+
+.colorGreen{
+	color:green;
+}
+
+.colorRed{
+	color:red;
+}
+
+.checkBtn{
+	padding: 0;
+	width: 100px;
+}
+
+/* 回到顶部样式   */
+.cr_top{
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	background: #000;
+	opacity: 0.6;
+	filter: alpha(opacity:60);
+	border-radius: 5px;
+	color:#fff;
+	font-size:17px;
+	position: fixed;
+	bottom: 32%;
+	left: 4%;
+	z-index: 55;
+	display: none;
+}
+.cr_top:hover{
+	cursor:pointer;
+}
+
+/*弹出框样式*/
+.allBox{
+	font-family:"微软雅黑";
+	/*margin: 10% auto;*/
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.cr_box{
+	width: 350px;
+	height: 200px;
+	position: absolute;
+	top: 10%;
+	left: 45%;
+}
+/*模态框*/
+.cr_moddle{
+	width: 100%;
+	height: 100%;
+	min-width: 1380px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #000;
+	z-index: 888;
+	opacity: 0.3;
+	filter:alpha(opacity:30);
+}
+.cr_title{
+	width: 350px;
+	height: 50px;
+	background:#7dc4dc;
+	border-radius:5px 5px 0px 0px;
+}
+.cr_title_msg{
+	height: 50px;
+	line-height: 50px;
+	padding-left: 5%;
+	color:#fff;
+	font-size:19px;
+	font-weight: 700;
+}
+.cr_content{
+	width: 350px;
+	height: 150px;
+	background:#fff;
+	border: 1px solid #7dc4dc;
+	border-bottom: none;
+}
+.cr_content_msg{
+	height: 65px;
+	margin-top: 35px;
+	width: 348px;
+	text-align: center;
+	color:#00BFFF;
+	font-size: 16px;
+	overflow: auto;
+	
+}
+.cr_bottom{
+	height: 50px;
+	width: 348px;
+}
+.cr_bottom_btn{
+	width: 174px;
+	height: 50px;
+	line-height: 50px;
+	float: left;
+	text-align: center;
+	color: #fff;
+	font-weight: 700;
+	background: #00BFFF;
+	cursor:pointer;
+}
+.cr_bottom_btn:hover{
+	background:#00A5dC;
+}
+.cr_bottom_btn:last-of-type{
+	background: #F7605C;
+}
+.cr_bottom_btn:last-of-type:hover{
+	background:#E25955;
+}
+
+/*  电表类型标签颜色值    */
+.listCircle{
+	width: 20px;
+	float:right;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    color: #fff;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+.gong{
+	background:#9796ad;
+}
+.min{
+	background:#60b577;
+}
+.shang{
+	background:#ecb856;
+}
+.yun{
+	background:#62befd;
+}

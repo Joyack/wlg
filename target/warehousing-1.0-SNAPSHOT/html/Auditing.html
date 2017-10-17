@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>审核</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/area.css"/>
+    <link rel="stylesheet" href="../css/personal/public.css">
+    <link rel="stylesheet" href="../css/personal/Auditing.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-datetimepicker.min.css"/>
+    <script src="../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap-datetimepicker.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/area.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="../js/menu.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="../js/normal.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+        .cr_moddle, .cr_box{
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+
+<body class="rel" style="">
+<div id="dddd"></div>
+<div class="container-fluid" style="background: #f1f1f1;">
+    <div class="wrapper">
+        <div class="right fl">
+            <div class="row" style="margin-left:2.5%;margin-right: 2.5%;height: 50px;line-height:50px;background:url(../images/addUser_bg.png);position: relative;">
+                <h3 style="height: 50px;line-height: 10px;color:#1da5ff;padding-left: 20px;position: relative;">
+                    <span><img src="../img/location.png" width="23px;" style="margin-bottom: 5px;"/>审核</span>
+                    <div style="position: absolute;top: -11px;right: 10px;z-index: 1;">
+                        <div class="input-group" style="width: 200px;">
+                            <input class="form-control" style="text-align:left;" type="text" id="findkey" name="search"
+                                   placeholder="物品名称"/>
+                            <span class="input-group-addon btn btn-primary" style="background:#337ab7;color:#fff;"
+                                  onclick="search();">搜索</span>
+                        </div>
+                    </div>
+                </h3>
+            </div>
+            <div class="main" style="margin-top: 8px;margin-left:2.5%;margin-right: 2.5%;">
+                <div class="col-md-12 col-xs-12" style="height:80px;">
+                    <div class="row" style="margin-top:30px">
+                        <ul class="status pull-left"  style="background-color:#f1f1f1;">
+                            <li><a onclick="load1('1')" href="javascript:void (0)">我发起的</a></li>
+                            <li><a onclick="load1('2')" href="javascript:void (0)" class="middle">我审核的</a></li>
+                            <li><a onclick="load1('3')" href="javascript:void (0)">抄送给我的</a>
+                            </li>
+                        </ul>
+                        <div class="navbar pull-left" style="width: 50%">
+                            <div class="pull-left" style="padding-left:3%">
+                                <span>操作时间</span>
+                                <input type="text" class="form-control time-select" id="beginTime" value="" readonly>
+                                <span>到</span>
+                                <input type="text" class="form-control time-select" id="endTime" value="" readonly>
+                            </div>
+                            <div class="clearfix"></div>
+                        <!--<input type="text" class="form-control audit-search" id="findkey" placeholder="物品名">-->
+                        <!--<span class="btn btn-success search-btn" onclick="search();">搜索</span>-->
+                        <span class="audit-plus pull-right" style="margin-right:-50%" ><i>+</i>采购申请</span>
+                    </div>
+                    <!--<span class="audit-plus"><i>+</i>采购申请</span>-->
+                </div>
+            </div>
+            <div class="row"
+                 style="margin-top: 8px;border: 1px solid #64C1FF;padding-bottom: 20px; width:100%;">
+                <div id="myTabContent" class="tab-content">
+                    <!--原材料库存表-->
+                    <div class="tab-pane fade in active" id="rawMaterialStock" style="padding:15px;">
+                        <div class="row" style="margin-top: 15px;">
+                            <table class="table table-striped" style="color:#374650;">
+                                <thead>
+                                <tr style="background:#AFD8F4;">
+                                    <td>请求类型<span class="pull-right">|</span></td>
+                                    <td>请求时间<span class="pull-right">|</span></td>
+                                    <td>请求物品<span class="pull-right">|</span></td>
+                                    <td>请求数量<span class="pull-right">|</span></td>
+                                    <td>请求状态<span class="pull-right">|</span></td>
+                                    <td>操作</td>
+                                </tr>
+                                </thead>
+                                <tbody id="auditing-tbody">
+
+                                </tbody>
+                            </table>
+                            <div class="btn-group" style="margin-left:40%;" id="itemManagementBtns">
+                                    <span class="btn btn-default"
+                                          onclick="itemManagement.pageType('preAllPage');">首页</span>
+                                <span class="btn btn-default"
+                                      onclick="itemManagement.pageType('prePage');">上一页</span>
+                                <span class="btn btn-default disabled" id="itemManagementNumber">0/0</span>
+                                <span class="btn btn-default"
+                                      onclick="itemManagement.pageType('nextPage');">下一页</span>
+                                <span class="btn btn-default"
+                                      onclick="itemManagement.pageType('nextAllPage');">尾页</span>
+                                <span class="btn btn-default disabled">共<span
+                                        id="itemManagementTotal">0</span>条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="audit-popup abs">
+    <div class="title">申请采购</div>
+    <div class="content">
+        <span>采购物品：</span> <select name="" id=""></select><br>
+        <span>规格型号：SD1001-1</span> <span class="indent">供应商：瓦良格</span><br>
+        <span>审核人：</span> <select name="" id=""></select>
+        <span class="indent">采购人：</span> <select name="" id=""></select><br>
+        <span class="">采购原因：</span>
+        <textarea cols="40" rows="5"></textarea>
+        <div class="abs btn-block">
+            <div class="btn btn-success">确定</div>
+            <div class="btn btn-success">取消</div>
+        </div>
+    </div>
+</div>
+</div>
+<!--审核详情-->
+<div class="audit-detail">
+    <div class="container" id="container1" style="left: 29.5%;width: 100%;">
+        <div class="row" style="line-height:50px;background:url(../images/addUser_bg.png);position: relative;"
+             id="detail-table">
+
+        </div>
+    </div>
+</div>
+
+<!--采购申请表格模板-->
+<script id="auditTem" type="text/html">
+    {{each result value i}}
+
+
+    <tr>
+        <td style="display: none;">{{result[i].id}}</td>
+        <td style="display: none;">{{result[i].sid}}</td>
+        <td style="display: none;">{{result[i].subperson}}</td>
+        <td>{{result[i].title}}</td>
+        <td>{{result[i].createtime}}</td>
+        <td>{{result[i].gname}}</td>
+        <td>{{result[i].snum}}</td>
+        <td>{{result[i].auditstatus}}</td>
+        <td class="detail-btn" data-value='{{result[i].id}}'><a style="color: #337ab7;" id="detail"
+                                                                onclick="getDetail('{{result[i].auditstatus}}','{{result[i].audittype}}',this)">详情</a>/
+            <a style="color: #337ab7;" id="cancel" onclick="submitReviewerMsg(this,'cancel')">撤销</a></td>
+    </tr>
+    {{/each}}
+</script>
+
+<!--审核详情模板-->
+<script id="detailTem" type="text/html">
+    <h3 style="height: 50px;color:#1da5ff;padding-left: 20px;">&gt;查看详情</h3>
+    <a href="javascript:void(0)" class="abs detail-return" id="back" onclick="back();">返回</a>
+    <table class="table table-bordered" style=" width: 100%;height:490px;">
+        <thead>
+        <tr>
+            <td colspan="4" style="font-size:25px" id="detailTitle"></td>
+        </tr>
+        </thead>
+        <tbody style="">
+        <tr>
+            <td style="width: 100px;text-align: right;">描述：</td>
+            <td style="text-align: left;" colspan="3" id="content"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px;text-align: right;height: 40px;">申请人：</td>
+            <td id="applicant" style="text-align: left;height: 40px;"></td>
+            <td style="width: 100px;text-align: right;height: 40px;">申请时间：</td>
+            <td id="applicantTime" style="text-align: left;height: 40px;"></td>
+        </tr>
+        <tr>
+            <td style="width: 100px;text-align: right;">审核意见：</td>
+            <td colspan="3">
+            <textarea class="form-control" id="applicantOption" style="height: 100px;resize: none;"
+            ></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 120px;text-align: right;height: 40px;">仓库审核人：</td>
+            <td id="reviewer" style="text-align: left;height: 40px;"></td>
+            <td style="width: 120px;height: 40px;">审核领导人：</td>
+            <td id="reviewer1" style="height: 40px;"></td>
+        </tr>
+        <tr>
+            <td style="height: 40px;text-align: right;">审核状态：</td>
+            <td colspan="3" id="reviewerType" style="text-align: left;"></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="hidden" id="audit">
+                <span class="btn btn-success pull-right" style="margin-left:15px;"
+                      onclick="submitReviewerMsg(this,'fail');">审批未过</span>
+                    <span class="btn btn-success pull-right"
+                          onclick="submitReviewerMsg(this,'success');">审批通过</span>
+                </div>
+                <div class="hidden" id="send">
+                        <span class="btn btn-success pull-right" style="margin-left:15px;"
+                              onclick="delivery('send')">发货</span>
+                </div>
+                <div class="hidden" id="returnGoods">
+                    <span class="btn btn-success pull-right" onclick="delivery('th')" style="margin-left:15px;">退货</span>
+                </div>
+                <div class="hidden" id="sureInStock">
+                        <span class="btn btn-success pull-right" style="margin-left:15px;"
+                              onclick="submitReviewerMsg(this,'sureInStock')">确认入库</span>
+                </div>
+                <div class="hidden" id="errInStock">
+                        <span class="btn btn-success pull-right" style="margin-left:15px;"
+                              onclick="submitReviewerMsg(this,'errInStock')">拒绝入库</span>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</script>
+
+
+<script src="../js/Personal/Auditing.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/template-web.js"></script>
+</body>
+</html>

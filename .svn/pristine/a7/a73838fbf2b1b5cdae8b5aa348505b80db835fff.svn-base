@@ -1,0 +1,47 @@
+.fix-record {
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 98%;
+    margin: 70px auto 0;
+}
+
+.fix-record .fix-title {
+    border: 2px;
+    margin-left: 15px;
+    margin-top: -10px;
+    padding-bottom: 15px;
+    z-index: 100;
+    width: 99px;
+    background-color: #F1F1F1;
+}
+
+.navbar {
+    padding-left: 80px;
+    margin-bottom: 10px;
+}
+
+.time-select {
+    width: 150px;
+    margin: 0 10px 0 10px;
+    display: inline-block;
+}
+
+.datetimepicker table tr td span{
+    margin: 0 !important;    width: 25% !important;
+}
+
+.stockSearch {
+    width: 150px;
+    display: inline-block;
+    margin: 0 10px 0 30px;
+}
+
+.table2 {
+    border: 1px solid #cccccc;
+    margin: 0 auto 10px;
+}
+
+.control-page2 {
+    margin: 10px;
+    padding-bottom: 15px;
+}

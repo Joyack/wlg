@@ -1,0 +1,263 @@
+.visited {
+  background-color: #1c79bf;
+  color: #fff !important;
+}
+.popup {
+  z-index: 999 !important;
+  top: 200px!important;
+}
+body {
+  background-color: #e6e6e6;
+  min-width: 1680px;
+}
+body header {
+  background-color: #1c79bf;
+  height: 120px;
+  -webkit-border-radius: 0 12px 12px 0;
+  -moz-border-radius: 0 12px 12px 0;
+  border-radius: 0 12px 12px 0;
+}
+body header .logo {
+  width: 590px;
+}
+body header .logo .logo-img {
+  width: 120px;
+  height: 120px;
+  background: url("../img/logo.png") no-repeat 30px;
+  -webkit-background-origin: content-box;
+  background-origin: content-box;
+}
+body header .logo p {
+  position: absolute;
+  top: 39%;
+  left: 140px;
+  font-size: 40px;
+  font-family: SimHei;
+  letter-spacing: 7px;
+}
+body header .nav {
+  top: 46px;
+  left: 36%;
+  height: 100%;
+}
+body header .nav ul li {
+  float: left;
+  width: 126px;
+  height: 50px;
+  line-height: 42px;
+  text-align: center;
+}
+body header .nav ul li a {
+  height: 100%;
+  color: #fff;
+  display: block;
+  background: url("../img/li_btn.png") no-repeat;
+}
+body header .nav ul li a:hover {
+  color: #13227a;
+}
+body header .nav ul li a:active {
+  background: url("../img/li_btn.png") no-repeat 0 5px;
+}
+body header .options {
+  top: 21px;
+  left: 87%;
+  width: 13%;
+}
+body header .options p {
+  margin: 0;
+}
+body header .options div {
+  margin-right: 15%;
+}
+body header .options div a {
+  display: block;
+  width: 30px;
+  height: 50px;
+  vertical-align: bottom;
+  background: url("../img/user.png") no-repeat;
+  background-size: contain;
+  color: #fff;
+}
+body header .options div a:hover {
+  color: #13227a;
+  background-image: url("../img/user_hover.png");
+}
+body header .options div a p {
+  bottom: 0;
+  left: -19px;
+}
+body header .options .verify a {
+  background-image: url("../img/verify.png");
+}
+body header .options .verify a:hover {
+  background-image: url('../img/verify_hover.png');
+}
+body header .options .verify a p {
+  left: -3px;
+  width: 40px;
+  letter-spacing: 3px;
+}
+body header .options .quit a {
+  background-image: url("../img/quit.png");
+}
+body header .options .quit a:hover {
+  background-image: url('../img/quit_hover.png');
+}
+body header .options .quit a p {
+  width: 40px;
+  left: -4px;
+  letter-spacing: 3px;
+}
+body .wrapper {
+  height: 1000px;
+  overflow: hidden;
+}
+body .wrapper .right {
+  width: 100%;
+  height: 100%;
+}
+body .wrapper .right .bar {
+  height: 38px;
+  line-height: 32px;
+  background-color: #fff;
+  margin-top: 2px;
+  margin-left: -1px;
+}
+body .wrapper .right .bar div {
+  padding-left: 36px;
+  background: url("../img/location.png") no-repeat 16px;
+  background-size: 20px 21px;
+}
+body .wrapper .right .bar div span {
+  color: #787878;
+}
+body .wrapper .right .main {
+  background-color: #f1f1f1;
+  /*margin-top: 0px;*/
+  /*margin-left: 1px;*/
+  padding-top: 10px;
+  padding-left: 20px;
+  height: 100%;
+}
+body .wrapper .right .main .row a {
+  color: #1c79bf;
+}
+body .wrapper .right .main .row ul {
+  width: 452px;
+  border: 1px solid #64C1FF;
+}
+body .wrapper .right .main .row ul li {
+  float: left;
+  width: 150px;
+  text-align: center;
+}
+body .wrapper .right .main .row ul li a {
+  display: inline-block;
+  width: 150px;
+  height: 36px;
+  line-height: 36px;
+}
+body .wrapper .right .main .row ul li .middle {
+  border-left: 1px solid #64C1FF;
+  border-right: 1px solid #64C1FF;
+}
+body .wrapper .right .main .navbar {
+  margin-bottom: 10px;
+  position: relative;
+}
+body .wrapper .right .main .navbar .time-select {
+  width: 150px;
+  margin: 0 10px 0 10px;
+  display: inline-block;
+}
+body .wrapper .right .main .navbar .audit-search {
+  width: 150px;
+  display: inline-block;
+  margin: 0 10px 0 30px;
+}
+body .wrapper .right .main .navbar .audit-plus {
+  position: absolute;
+  right: 120px;
+  bottom: 12px;
+  padding-left: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+body .wrapper .right .main .navbar .audit-plus:hover {
+  background-color: #13227a;
+  color: #fff;
+}
+body .wrapper .right .main .navbar .audit-plus i {
+  position: absolute;
+  left: 0;
+  top: -15px;
+  font-size: 40px;
+  color: #FF9205;
+}
+body .audit-popup {
+  z-index: -999;
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid #787878;
+  left: 40%;
+  top: 20000px;
+  width: 450px;
+  height: 400px;
+}
+body .audit-popup .title {
+  background-color: #1c79bf;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+}
+body .audit-popup .content {
+  padding: 20px;
+  line-height: 32px;
+}
+body .audit-popup .content select {
+  width: 100px;
+}
+body .audit-popup .content select:nth-of-type(1) {
+  width: 200px;
+}
+body .audit-popup .content .indent {
+  padding-left: 3em;
+}
+body .audit-popup .content textarea {
+  position: absolute;
+  top: 163px;
+}
+body .audit-popup .content .btn-block {
+  bottom: 20px;
+  right: -300px;
+}
+body .audit-popup .content .btn-block .btn {
+  margin-left: 10px;
+}
+body .audit-detail {
+  left: 40%;
+  top: 2000px;
+  width: 600px;
+  z-index: -999;
+  position: absolute;
+}
+body .audit-detail a {
+  right: 10px;
+  top: 10px;
+}
+body .audit-detail table {
+  background-color: #fff;
+}
+
+.detail-btn a{
+  color:#337ab7;
+}
+.detail-btn a:hover{
+  color:#337ab7;
+  cursor:pointer;
+}

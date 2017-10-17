@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/personal/public.css">
+	<link rel="stylesheet" href="../css/personal/Login.css">
+	<script src="../js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/area.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+	<title>登录</title>
+</head>
+<script type="text/javascript">
+    $(function () {
+        refresh();
+        //检查用户输入的值
+        var flag = false;
+        (function(){
+            var inp = document.getElementById('checkcode');
+            var code = document.getElementById('code');
+            var c = new KinerCode({
+
+                validateFn : function(result,code){//验证回调函数
+                    if(result){
+                        //error("验证成功...");
+                        flag = true;
+                    }else{
+                        $("#checkcode").focus();
+                        flag = false;
+                    }
+                }
+            });
+        })(window);
+
+    })
+
+    function refresh() {
+        var url =HEADER + "login/check.do?number="+Math.random();
+        $("#img").attr("src",url);
+
+    }
+    $("#btn_sub").click(function(){
+
+        $("#loginform").submit();
+    });
+
+    function checkUser(){
+        //获取用户名
+        var username = $("#username").val().toLowerCase();
+        var password = $("#password").val();
+        var yanzhengma = $("#checkcode").val();
+        remember =  $("#remember").prop("checked");
+        cr.setCache("username",username,"localStorage");
+        if(remember){
+            cr.setCache("password",password,"localStorage");
+        }else{
+            cr.removeCache("password","localStorage");
+        }
+        if(username == ""){
+            error("用户名不能为空...");
+            $("#username").focus();
+            return false;
+        };
+        if(password == ""){
+            error("密码不能为空...");
+            $("#password").focus();
+            return false;
+        };
+        if(yanzhengma == ""){
+            error("验证码不能为空...");
+            $("#inputcode").focus();
+            return false;
+        };
+
+        return true;
+    };
+
+    function error(msg){
+        $("#error").html(msg);
+        $("#error").fadeIn("slow").delay(1000).fadeOut("slow");
+    }
+</script>
+<body>
+<header class="rel">
+	<div class="logo abs">
+		<div class="logo-img"></div>
+		<p>瓦良格仓储管理系统</p>
+	</div>
+</header>
+<div class="wrapper">
+	<div class="login">
+		<div id="error" class="form-control" style="display: none;color: red; font-size: 14px;">${requestScope.message)}</div>
+		<form id="loginform" style="width: 500px;height: 600px;" action="../login/main.do" onsubmit="return checkUser(this);" method="post" enctype="multipart/form-data">
+			<label>账&nbsp;&nbsp;&nbsp;&nbsp;号：</label><input type="text" id="username" name="username" placeholder="账号"><br/>
+			<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label><input type="password" id="password" name="password" placeholder="密码"><br/>
+			<label>验证码：</label><input type="text" id="checkcode"  style="width: 100px" name="checkCode" placeholder="验证码">
+			<img id="img" src="/login/check.do" onclick="refresh()">
+			<div class="col-md-2 cpl-xs-2">
+			<span id="code" class="mycode"></span>
+		</div>
+			<button type="submit"  id="btn_sub" class="login-btn">登录</button>
+		</form>
+	</div>
+
+	</div>
+
+</div>
+</body>
+</html>
