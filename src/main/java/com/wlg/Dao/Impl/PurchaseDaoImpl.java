@@ -108,7 +108,6 @@ public class PurchaseDaoImpl extends BaseDao implements PurchaseDao {
 
     /*编辑修改*/
     @Override
-    @Transactional
     public int updatePur(Purchase purchase)
     {
        hiSession.getSession().update(purchase);

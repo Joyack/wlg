@@ -107,7 +107,7 @@ function showEdit(dom) {
 	// alert(editProvider);
 	//				alert(itemId+"="+itemName+"="+itemType+"="+itemNumber+"="+itemUnit);
 	cr_item.getProviderId($("#editProvider"),true); //给供应商下拉框赋值
-	// alert(itemType);
+    // alert(itemType);
     $("#editType option").each(function(){
         if($(this).text() == itemType){
             $(this).prop("selected","selected");
