@@ -521,7 +521,6 @@
                             <label>备&nbsp;&nbsp;注：</label>
                         </div>
                         <div class="col-md-8 col-xs-8 ellipsis" style="width: 175px;margin-left:-10px">
-                            <!--样式需要修改-->
                             <input type="text" class="form-control " id="CgComments" value="" >
                         </div>
                     </div>
@@ -552,6 +551,7 @@
                         </div>
                         <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
                             <label id="updateShoppingOrderNumber"></label>
+                            <input type="hidden" id="cid" >
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-6">
@@ -559,7 +559,8 @@
                             <label>物品名称：</label>
                         </div>
                         <div class="col-md-7 col-xs-7 ellipsis" style="width: 165px;">
-                            <select class="form-control" id="updateGoodsType" onchange="getOtherMsg(this);"></select>
+                            <!--<select class="form-control" id="updateGoodsType" onchange="getOtherMsg(this);"></select>-->
+                            <label id="updateGoodsType"></label>
                         </div>
                     </div>
                 </div>
@@ -639,7 +640,6 @@
                             <label>备&nbsp;&nbsp;注：</label>
                         </div>
                         <div class="col-md-8 col-xs-8 ellipsis" style="width: 175px;margin-left:-10px">
-                            <!--样式需要修改-->
                             <input type="text" class="form-control " id="updateCgComments" value="" >
                         </div>
                     </div>

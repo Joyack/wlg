@@ -53,7 +53,7 @@ var cr_item = {
 
     //给下拉框赋值物品类型
     getItemType: function (dom) {
-        var url = HEADER + "getAllGoodsName.do";
+        var url = HEADER + "goods/getAllGoodsName.do";
         $.ajax({
             type: "get",
             url: url,

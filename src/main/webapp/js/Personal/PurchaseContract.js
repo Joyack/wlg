@@ -95,12 +95,21 @@ function search() {
 /*----------------------------录入采购单方法------------------------*/
 
 //检测是否输入了值
+/*检测新增*/
 function checkHasValue() {
     var cnum = !!$("#addNumber").val() ? $("#addNumber").val() * 1 : 0;//采购数量
     var cgprice = !!$("#addCgPrice").val() ? $("#addCgPrice").val() * 1 : 0;//采购单价
     // console.log(cnum+"=="+cgprice);
     var cgmoney = cnum * cgprice;//采购金额
     $("#addCgMoney").val(cgmoney);
+
+
+/*检测编辑*/
+    var update_cnum = !!$("#updateNumber").val() ? $("#updateNumber").val() * 1 : 0;//采购数量
+    var update_cgprice = !!$("#updateCgPrice").val() ? $("#updateCgPrice").val() * 1 : 0;//采购单价
+    // console.log(cnum+"=="+cgprice);
+    var update_cgmoney = update_cnum * update_cgprice;//采购金额
+    $("#updateCgMoney").val(update_cgmoney);
 }
 
 //根据选择不同物品给录入采购单框赋值
@@ -173,10 +182,12 @@ function addPurchaseList() {
 
 //打开编辑
 function openEditPurManageMsg(dom) {
+    var innum= $(dom).parents("tr").children().eq(8).html();
+    if(innum*1<=0){
     $("#updateShoppingList").modal("show");
     var id = $(dom).parents("tr").attr("data-id");
-    var cgId = $(dom).parents("tr").children().eq(0).html();
-    var goodName = $(dom).parents("tr").children().eq(0).html();
+    var cgId =$(dom).parents("tr").attr("data-cno");
+    var goodName = $(dom).parents("tr").children().eq(1).html();
     var cgType = $(dom).parents("tr").children().eq(2).html();
     var cgDan = $(dom).parents("tr").children().eq(3).html();
     var supplier = $(dom).parents("tr").children().eq(4).html();
@@ -185,16 +196,18 @@ function openEditPurManageMsg(dom) {
     var cgMoney = $(dom).parents("tr").attr("data-money");
     var cgNum= $(dom).parents("tr").children().eq(6).html();
     var cgComments = $(dom).parents("tr").children().eq(10).html();
+    var gid = $(dom).parents("tr").children().eq(1).attr("data-gid");
 
-
-    //给物品名称下拉框赋值
-    cr_item.getProviderId($("#editProvider"),true);
-    $("#editType option").each(function(){
-        if($(this).text() == itemType){
-            $(this).prop("selected","selected");
-        }
-    });
-
+    /* //给物品名称下拉框赋值
+     cr_item.getItemType($("#updateGoodsType"),true);
+     $("#updateGoodsType option").each(function(){
+         if($(this).text() == goodName){
+             $(this).prop("selected","selected");
+         }
+     });*/
+    $("#cid").val(id);
+    $("#updateGoodsType").html(goodName);
+    $("#updateGoodsType").attr("gid",gid);
     $("#updateShoppingOrderNumber").html(cgId);
     $("#updateGspec").html(cgType);
     $("#updateProvider").html(supplier);
@@ -204,46 +217,53 @@ function openEditPurManageMsg(dom) {
     $("#updateCgMoney").val(cgMoney);
     $("#updateCgTime").val(cgDate);
     $("#updateCgComments").val(cgComments);
+}else{
+    cr_dialogBox(true,"已有入库数量,不能修改采购信息!");
+}
 
 }
 
 
-//编辑采购清单
-function updatePurManageMsg() {
+//提交编辑采购清单
+function updatePurchaseList() {
     var url = HEADER + "purchase/updatePurInfo.do";
-    var cid = $("#enterShoppingOrderNumber").html();
-    var gid = $("#updateGoodsType").find("option:selected").val();
-    var cdate = $("#updateCdate").val();
+    var id = $("#cid").val();
+    var cid = $("#updateShoppingOrderNumber").html();
+    var gid = $("#updateGoodsType").attr("gid");
+    var cgType = $("#updateGspec").val();
+    var updateProvider = $("#updateProvider").html();
     var cnum = $("#updateNumber").val();//采购数量
     var cgprice = $("#updateCgPrice").val();//采购单价
     var cgmoney = $("#updateCgMoney").val();
-    var cgTime = $("#CgTime").val();//采购时间
-    var cgComments = $("#CgComments").val()//采购备注
-    if (gid != "") {
-        if (cdate != "") {
+    var cgTime = $("#updateCgTime").val();//采购时间
+    var cgComments = $("#updateCgComments").val()//采购备注
+
             if (cnum != "") {
                 if (cgprice != "") {
                     $.ajax({
                         type: "post",
                         url: url,
                         data: {
-                            "cgid": cid,//采购单号
+                            "id": id,//采购单号
                             "gid": gid,//物品编号
-                            "cgdate": cdate,//采购日期
+                            "cgid":cid,
                             "cgnum": cnum,//采购数量
+                            "cgprice": cgprice,
+                            "cgmoney": cgmoney,
+                            "createtime":cgTime,//采购时间
+
+                            "cgdate":cgTime,
+
+                            "comments":cgComments,//采购备注
                             "instate": "01",//物品入库状态
                             "cgstatus": "01",
                             "instoragednum": 0,//已入库数量
                             "instoragenum": cnum,//未入库数量
-                            "cgprice": cgprice,
-                            "cgmoney": cgmoney,
-                            "createtime":cgTime,//采购时间
-                            "comments":cgComments//采购备注
                         },
                         success: function (data) {
                             if (data.msg == 1 || data.msg == "1") {
                                 cr_dialogBox.alert(true, "提交成功!");
-                                $("#enterShoppingList").modal("hide");
+                                $("#updateShoppingList").modal("hide");
                                 purManagement.pageType(purManagement.page);
                             } else if (data.msg == 0 || data.msg == "0") {
                                 cr_dialogBox.alert(true, "提交失败!");
@@ -256,13 +276,7 @@ function updatePurManageMsg() {
             } else {
                 cr_dialogBox.alert(true, "请输入采购数量!");
             }
-        } else {
-            cr_dialogBox.alert(true, "请输入时间!");
         }
-    } else {
-        cr_dialogBox.alert(true, "请选择物品类型!");
-    }
-}
 
 /*----------------------------录入采购单方法结束------------------------*/
 
@@ -424,11 +438,12 @@ function openInRecordsModdle(dom) {
 //入库数量不能大于采购数量
 function openGoodsInModdle() {
     //当前选中的订单列
-    var trDom = $("#purManagementMsg").find("input[name=order]:checked").parents("tr");
-    if (!!trDom.children().eq(1).children().eq(0).html()) {
-        var name = trDom.children().eq(1).children().eq(0).html();
-        var cnum = trDom.children().eq(6).children().eq(0).html();//采购数量
-        var stockNum = trDom.children().eq(9).children().eq(0).html();//待入库数
+    var trDom = $("#purManagementMsg").find("input[name='order']:checked").parents("tr");
+    //var id = trDom.parents("tr").children().eq(1).attr("data-gid");//id的值
+    if (!!trDom.children().eq(1).html()) {
+        var name = trDom.children().eq(1).html();
+        var cnum = trDom.children().eq(6).html();//采购数量
+        var stockNum = trDom.children().eq(9).html();//待入库数
         var order = $.trim(trDom.children().eq(0).children().eq(0).text());
         var gid = trDom.children().eq(1).attr("data-gid");
         var cno = trDom.attr("data-cno");
@@ -454,20 +469,32 @@ function openGoodsInModdle() {
 }
 
 //打开退货窗口
-//已入库数位0不能打开退货窗口 退货数量不能大于已入库数量
+//已入库数位0不能打开退货窗口 退货数量不能大于-+已入库数量
 function openGoodsRetrun() {
+
+ /*   //当前选中的订单列
+    var trDom = $("#purManagementMsg").find("input[name='order']:checked").parents("tr");
+    var id = trDom.parents("tr").children().eq(1).attr("data-gid");
+    if (!!trDom.children().eq(1).html()) {
+        var name = trDom.children().eq(1).html();
+        var cnum = trDom.children().eq(6).html();//采购数量
+        var stockNum = trDom.children().eq(9).html();//待入库数*/
+
+
     //当前选中的订单列
-    var trDom = $("#purManagementMsg").find("input[name=order]:checked").parents("tr");
+    var trDom = $("#purManagementMsg").find("input[name='order']:checked").parents("tr");
     cr_item.getAllChecker($("#StockChecker")); //给下拉赋值审核人
     cr_item.getAllManager($("#StockManager")); //给下拉赋值仓库管理员
     cr_item.getAllUser($("#StockCSPerson"));//给下拉框赋值抄送人
-    if (!!trDom.children().eq(1).children().eq(0).html()) {
-        var name = trDom.children().eq(1).children().eq(0).html();
-        var gspec = trDom.children().eq(2).children().eq(0).html();
-        var provider = trDom.children().eq(4).children().eq(0).html();
-        var unit = trDom.children().eq(3).children().eq(0).html();
+    if (!!trDom.children().eq(1).html()) {
+        var name = trDom.children().eq(1).html();
+        var gspec = trDom.children().eq(2).html();
+        var provider = trDom.children().eq(4).html();
+        var unit = trDom.children().eq(3).html();
         var gid = trDom.children().eq(1).attr("data-gid");
-        var order = $.trim(trDom.children().eq(0).children().eq(0).text());
+
+        var order = $.trim(trDom.children().eq(0).text());
+
         var cno = trDom.attr("data-cno");
         var cid = trDom.attr("data-cid");
         var gno = trDom.attr("data-gno");
@@ -476,6 +503,7 @@ function openGoodsRetrun() {
         var stackedNum = trDom.children().eq(8).children().eq(0).html() * 1;//库存数量
         var anormalnum = trDom.attr("data-anormalnum");//审核中的正常退货数量
         var afaultnum = trDom.attr("data-afaultnum");//审核中的故障退货数量
+
         console.log("（打开退货里面）审核中的正常退货数量：" + anormalnum + "；   审核中的故障退货数量：" + afaultnum);
         if ((stackedNum + "") != "NaN" && stackedNum > 0) {
             $("#returnGoods").modal("show");
@@ -581,7 +609,7 @@ var purManagement = {
                         }
                         html += "<tr data-cno='" + jsonArr[i].cgid + "' data-faultnum='" + jsonArr[i].faultnum + "'  data-price='" + jsonArr[i].cgprice + "'  data-money='" + jsonArr[i].cgmoney + "'  data-gno='" + jsonArr[i].gno + "' data-cid='" + jsonArr[i].cid + "' data-id='" + jsonArr[i].cid + "' data-afaultnum='" + jsonArr[i].afaultnum + "' data-anormalnum='" + jsonArr[i].anum + "'>" +
                             "	<td style='width: 160px;'><label><input type='radio' name='order'/>" + (jsonArr[i].cgid == null ? "" : jsonArr[i].cgid) + "</label></td>" +
-                            "	<td data-gid='" + jsonArr[i].gid + "'><label>" + (jsonArr[i].gname == null ? "" : jsonArr[i].gname) + "</label></td>" +
+                            "	<td data-gid='" + jsonArr[i].gid + "'>" + (jsonArr[i].gname == null ? "" : jsonArr[i].gname) + "</td>" +
                             "	<td>" + (jsonArr[i].gspec == null ? "" : jsonArr[i].gspec) + "</td>" +
                             "	<td>" + (jsonArr[i].unit == null ? "" : jsonArr[i].unit) + "</td>" +
                             "	<td>" + (jsonArr[i].proname == null ? "" : jsonArr[i].proname) + "</td>" +

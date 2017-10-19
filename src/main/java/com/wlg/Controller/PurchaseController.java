@@ -1,5 +1,6 @@
 package com.wlg.Controller;
 
+import com.wlg.Model.GoodsInfo;
 import com.wlg.Model.PageBean;
 import com.wlg.Model.Purchase;
 import com.wlg.Model.User;
@@ -73,40 +74,41 @@ public class PurchaseController extends BaseController{
         return null;
     }
 
-/*编辑*/
-  @RequestMapping(value="/updatePurInfo.do",method = RequestMethod.POST)
+    /**
+     * 修改合同信息
+     * @return
+     */
+    @RequestMapping(value="/updatePurInfo.do", method = RequestMethod.POST)
     @ResponseBody
-    public String update_Purchase(Purchase cgInfo) throws IOException {
-        User u= (User) session.getAttribute("userinfo");
-        JSONObject JSON = new JSONObject();
-        int n=0;
-        if(u!=null){
-            cgInfo.setId(UUID.randomUUID().toString());
+    public String update_Purchase(Purchase purchase){
+        //  UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONObject json = new JSONObject();
 
-            Date currentTime = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String dateString = formatter.format(currentTime);
-            cgInfo.setCgdate(cgInfo.getCreatetime());
-            // cgInfo.setCreatetime(dateString);
-            cgInfo.setCreateauthor(u.getUsername());
-            n=purchaseService.savePurchase(cgInfo);
-            if(n==0){
-                JSON.put("msg","0");
-            }else{
-                JSON.put("msg","1");
-            }
-        }else{
-            JSON.put("msg","2");//未登录;
-        }
-
-        try {
+        try{
+            int i = purchaseService.updatePur(purchase);
+            //int i=goodsService.updateGoods(gInfo);
+            //************************日志操作*************************************
+            List<Purchase> uc = new ArrayList<>();
+            uc.add(purchase);
+            // this.logsService.addLogs(new Location(), new Logs().setLogs(userDetails.getUsername(),LogContant.goodsModel,LogContant.updateGoods(goodsInfo.getGname()),JSONHelper.toJSONString(uc),LogContant.UPDATE));
+            //修改成功
+            json.put("msg","1");
             response.setHeader("Access-Control-Allow-Origin", "*");
-            response.getWriter().write(JSON.toString());
+            response.getWriter().write(json.toString());
         } catch (IOException e) {
             e.printStackTrace();
+            json.put("msg","0");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            try {
+                response.getWriter().write(json.toString());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         return null;
+
     }
+
 
     @RequestMapping(value="/deletePur.do",method = RequestMethod.POST)
     @ResponseBody
